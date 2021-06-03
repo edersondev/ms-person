@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.edersonferreira.msperson.dto.PersonDTO;
 import com.edersonferreira.msperson.model.entities.Person;
 import com.edersonferreira.msperson.repositories.PersonRepository;
+import com.edersonferreira.msperson.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class PersonService {
@@ -17,6 +18,6 @@ public class PersonService {
 	
 	public PersonDTO findById(Long id) {
 		Optional<Person> obj = repository.findById(id);
-		return obj.map(entity -> new PersonDTO(entity)).orElseThrow(() -> new IllegalArgumentException());
+		return obj.map(entity -> new PersonDTO(entity)).orElseThrow(() -> new ResourceNotFoundException());
 	}
 }
