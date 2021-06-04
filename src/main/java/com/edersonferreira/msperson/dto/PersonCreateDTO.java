@@ -3,6 +3,11 @@ package com.edersonferreira.msperson.dto;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
+
 import com.edersonferreira.msperson.model.entities.Person;
 import com.edersonferreira.msperson.model.enums.Gender;
 import com.edersonferreira.msperson.model.enums.SkinColor;
@@ -10,10 +15,21 @@ import com.edersonferreira.msperson.model.enums.SkinColor;
 public class PersonCreateDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	@NotBlank
 	private String name;
+	
+	@NotNull
+	@Past
 	private LocalDate birthday;
+	
+	@NotNull
+	@Pattern(regexp="^[A-Za-z]*$",message = "Allow only string")
 	private String gender;
+	
+	@NotNull
 	private Integer skinColor;
+	
+	@NotNull
 	private Long idCountry;
 	
 	public PersonCreateDTO() {
