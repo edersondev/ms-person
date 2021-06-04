@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
+import com.edersonferreira.msperson.annotation.EnumValidator;
 import com.edersonferreira.msperson.model.entities.Person;
 import com.edersonferreira.msperson.model.enums.Gender;
 import com.edersonferreira.msperson.model.enums.SkinColor;
@@ -24,6 +25,7 @@ public class PersonCreateDTO implements Serializable {
 	
 	@NotNull
 	@Pattern(regexp="^[A-Za-z]*$",message = "Allow only string")
+	@EnumValidator(enumClass=Gender.class)
 	private String gender;
 	
 	@NotNull
