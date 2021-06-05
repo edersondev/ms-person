@@ -29,7 +29,9 @@ public class PersonCreateDTO implements Serializable {
 	private String gender;
 	
 	@NotNull
-	private Integer skinColor;
+	@Pattern(regexp="^[A-Za-z]*$",message = "Allow only string")
+	@EnumValidator(enumClass=SkinColor.class)
+	private String skinColor;
 	
 	@NotNull
 	private Long idCountry;
@@ -37,7 +39,7 @@ public class PersonCreateDTO implements Serializable {
 	public PersonCreateDTO() {
 	}
 
-	public PersonCreateDTO(String name, LocalDate birthday, String gender, Integer skinColor, Long idCountry) {
+	public PersonCreateDTO(String name, LocalDate birthday, String gender, String skinColor, Long idCountry) {
 		this.name = name;
 		this.birthday = birthday;
 		this.idCountry = idCountry;
@@ -49,7 +51,7 @@ public class PersonCreateDTO implements Serializable {
 		this.name = entity.getName();
 		this.birthday = entity.getBirthday();
 		this.gender = entity.getGender().toString();
-		this.skinColor = entity.getSkinColor().getCode();
+		this.skinColor = entity.getSkinColor().toString();
 		this.idCountry = entity.getCountry().getId();
 	}
 
@@ -78,10 +80,10 @@ public class PersonCreateDTO implements Serializable {
 	}
 
 	public SkinColor getSkinColor() {
-		return SkinColor.valueOf(skinColor);
+		return SkinColor.valueOf(skinColor.toUpperCase());
 	}
 
-	public void setSkinColor(Integer skinColor) {
+	public void setSkinColor(String skinColor) {
 		this.skinColor = skinColor;
 	}
 
