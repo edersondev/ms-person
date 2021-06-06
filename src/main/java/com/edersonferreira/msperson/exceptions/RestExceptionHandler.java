@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.edersonferreira.msperson.model.controlleradvice.MethodArgumentNotValid;
+import com.edersonferreira.msperson.model.controlleradvice.ResponseMsg;
+import com.edersonferreira.msperson.services.exceptions.ResourceNotFoundException;
 
 @RestControllerAdvice
 public class RestExceptionHandler {
@@ -27,5 +29,12 @@ public class RestExceptionHandler {
 		}
 		
 		return responseMsg;
+	}
+	
+	@ExceptionHandler(ResourceNotFoundException.class)
+	@ResponseStatus(code = HttpStatus.NOT_FOUND)
+	public ResponseMsg handleNotFoundException(ResourceNotFoundException ex) {
+		ResponseMsg response = new ResponseMsg(ex.getMessage());
+		return response;
 	}
 }
