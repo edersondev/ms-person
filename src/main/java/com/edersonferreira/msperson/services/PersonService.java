@@ -2,6 +2,8 @@ package com.edersonferreira.msperson.services;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,7 @@ public class PersonService {
 	@Autowired
 	private CountryRepository countryRepository;
 	
+	@Transactional
 	public PersonDTO findById(Long id) {
 		Optional<Person> obj = repository.findById(id);
 		return obj.map(entity -> new PersonDTO(entity)).orElseThrow(() -> new ResourceNotFoundException());
