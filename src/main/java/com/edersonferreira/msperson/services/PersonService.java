@@ -2,10 +2,9 @@ package com.edersonferreira.msperson.services;
 
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.edersonferreira.msperson.dto.PersonCreateDTO;
 import com.edersonferreira.msperson.dto.PersonDTO;
@@ -24,7 +23,7 @@ public class PersonService {
 	@Autowired
 	private CountryRepository countryRepository;
 	
-	@Transactional
+	@Transactional(readOnly = true)
 	public PersonDTO findById(Long id) {
 		Optional<Person> obj = repository.findById(id);
 		return obj.map(entity -> new PersonDTO(entity)).orElseThrow(() -> new ResourceNotFoundException());
