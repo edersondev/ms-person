@@ -2,6 +2,8 @@ package com.edersonferreira.msperson.model.entities;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.edersonferreira.msperson.model.enums.Gender;
@@ -41,6 +44,9 @@ public class Person {
 	@ManyToOne
 	@JoinColumn(name = "id_country_origin",nullable = false)
 	private Country country;
+	
+	@OneToMany(mappedBy = "person")
+	private List<Document> documents = new ArrayList<>();
 	
 	public Person() {
 	}
@@ -111,5 +117,9 @@ public class Person {
 
 	public void setCountry(Country country) {
 		this.country = country;
+	}
+	
+	public List<Document> getDocuments() {
+		return documents;
 	}
 }
