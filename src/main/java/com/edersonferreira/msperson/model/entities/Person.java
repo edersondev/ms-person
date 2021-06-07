@@ -2,8 +2,8 @@ package com.edersonferreira.msperson.model.entities;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -46,7 +46,7 @@ public class Person {
 	private Country country;
 	
 	@OneToMany(mappedBy = "person")
-	private List<Document> documents = new ArrayList<>();
+	private Set<Document> documents = new HashSet<>();
 	
 	public Person() {
 	}
@@ -119,7 +119,11 @@ public class Person {
 		this.country = country;
 	}
 	
-	public List<Document> getDocuments() {
+	public Set<Document> getDocuments() {
 		return documents;
+	}
+
+	public void setDocuments(Set<Document> documents) {
+		this.documents = documents;
 	}
 }

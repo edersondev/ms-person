@@ -36,15 +36,19 @@ public class PersonCreateDTO implements Serializable {
 	@NotNull
 	private Long idCountry;
 	
+	@NotNull
+	private String documentNumber;
+	
 	public PersonCreateDTO() {
 	}
 
-	public PersonCreateDTO(String name, LocalDate birthday, String gender, String skinColor, Long idCountry) {
+	public PersonCreateDTO(String name, LocalDate birthday, String gender, String skinColor, Long idCountry, String documentNumber) {
 		this.name = name;
 		this.birthday = birthday;
 		this.idCountry = idCountry;
 		this.gender = gender.toUpperCase();
 		this.skinColor = skinColor;
+		this.documentNumber = documentNumber;
 	}
 	
 	public PersonCreateDTO(Person entity) {
@@ -94,4 +98,13 @@ public class PersonCreateDTO implements Serializable {
 	public void setIdCountry(Long idCountry) {
 		this.idCountry = idCountry;
 	}
+
+	public String getDocumentNumber() {
+		return documentNumber;
+	}
+
+	public void setDocumentNumber(String documentNumber) {
+		this.documentNumber = documentNumber;
+	}
+	
 }

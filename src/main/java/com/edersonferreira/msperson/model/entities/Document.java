@@ -25,7 +25,7 @@ public class Document {
 	private String number;
 	
 	@Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	private Instant createdAt;
+	private Instant createdAt = Instant.now();
 	
 	private Instant updatedAt;
 	
@@ -88,4 +88,13 @@ public class Document {
 			this.documentType = documentType.getCode();
 		}
 	}
+
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+	
 }
