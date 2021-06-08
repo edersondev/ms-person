@@ -6,4 +6,5 @@ import com.edersonferreira.msperson.model.entities.Country;
 
 public interface CountryRepository extends JpaRepository<Country, Long> {
 
+	Country findByIsoCode3(String isoCode3);
 }

@@ -39,7 +39,7 @@ public class PersonService {
 	
 	@Transactional
 	public PersonDTO create(PersonCreateDTO dto) {
-		Country country = this.findCountryById(dto.getIdCountry());
+		Country country = this.findByIsoCode3(dto.getCountryIsoCode());
 		
 		Person person = new Person();
 		person.setName(dto.getName());
@@ -63,8 +63,8 @@ public class PersonService {
 		return new PersonDTO(person);
 	}
 	
-	private Country findCountryById(Long id) {
-		Optional<Country> obj = countryRepository.findById(id);
-		return obj.orElseThrow(() -> new ResourceNotFoundException("Código do país informado não existe."));
+	private Country findByIsoCode3(String isoCode) {
+		Optional<Country> obj = Optional.ofNullable(countryRepository.findByIsoCode3(isoCode.toUpperCase()));
+		return obj.orElseThrow(() -> new ResourceNotFoundException("Country code does not exist"));
 	}
 }
