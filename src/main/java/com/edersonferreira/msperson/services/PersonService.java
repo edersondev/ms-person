@@ -31,6 +31,8 @@ public class PersonService {
 	@Autowired
 	private DocumentRepository documentRepository;
 	
+	private DocumentType documentType = DocumentType.CPF;
+	
 	@Transactional(readOnly = true)
 	public PersonDTO findById(Long id) {
 		Optional<Person> obj = repository.findById(id);
@@ -40,6 +42,10 @@ public class PersonService {
 	@Transactional
 	public PersonDTO create(PersonCreateDTO dto) {
 		Country country = this.findByIsoCode3(dto.getCountryIsoCode());
+		
+		if(!country.getIsoCode3().equals("BRA")) {
+			documentType = DocumentType.PASSAPORT;
+		}
 		
 		Person person = new Person();
 		person.setName(dto.getName());
@@ -51,7 +57,7 @@ public class PersonService {
 		person = repository.save(person);
 		
 		Document document = new Document();
-		document.setDocumentType(DocumentType.CPF);
+		document.setDocumentType(documentType);
 		document.setNumber(dto.getDocumentNumber());
 		document.setPerson(person);
 		document = documentRepository.save(document);
