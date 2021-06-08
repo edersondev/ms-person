@@ -31,7 +31,7 @@ public class PersonService {
 	@Autowired
 	private DocumentRepository documentRepository;
 	
-	private DocumentType documentType = DocumentType.CPF;
+	private DocumentType documentType = DocumentType.PASSAPORT;
 	
 	@Transactional(readOnly = true)
 	public PersonDTO findById(Long id) {
@@ -43,8 +43,8 @@ public class PersonService {
 	public PersonDTO create(PersonCreateDTO dto) {
 		Country country = this.findByIsoCode3(dto.getCountryIsoCode());
 		
-		if(!country.getIsoCode3().equals("BRA")) {
-			documentType = DocumentType.PASSAPORT;
+		if(country.getIsoCode3().equals("BRA")) {
+			documentType = DocumentType.CPF;
 		}
 		
 		Person person = new Person();
