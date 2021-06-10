@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.edersonferreira.msperson.annotation.CpfCnpj;
 import com.edersonferreira.msperson.dto.PersonCreateDTO;
 import com.edersonferreira.msperson.dto.PersonDTO;
 import com.edersonferreira.msperson.services.PersonService;
@@ -42,7 +43,7 @@ public class PersonController {
 	}
 	
 	@GetMapping(value = "/number/{nucpf}")
-	public ResponseEntity<PersonDTO> findByCpf(@PathVariable("nucpf") @NotBlank String nucpf) {
+	public ResponseEntity<PersonDTO> findByCpf(@PathVariable("nucpf") @NotBlank @CpfCnpj String nucpf) {
 		PersonDTO obj = service.findByCpf(nucpf);
 		return ResponseEntity.ok().body(obj);
 	}

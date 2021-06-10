@@ -1,5 +1,7 @@
 package com.edersonferreira.msperson.exceptions;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -18,7 +20,7 @@ public class RestExceptionHandler {
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
-	public MethodArgumentNotValid handleNotValidException(MethodArgumentNotValidException ex) {
+	public MethodArgumentNotValid HandleNotValidException(MethodArgumentNotValidException ex) {
 		
 		MethodArgumentNotValid responseMsg = new MethodArgumentNotValid();
 		
@@ -33,8 +35,16 @@ public class RestExceptionHandler {
 	
 	@ExceptionHandler(ResourceNotFoundException.class)
 	@ResponseStatus(code = HttpStatus.NOT_FOUND)
-	public ResponseMsg handleNotFoundException(ResourceNotFoundException ex) {
+	public ResponseMsg HandleNotFoundException(ResourceNotFoundException ex) {
 		ResponseMsg response = new ResponseMsg(ex.getMessage());
+		return response;
+	}
+	
+	@ExceptionHandler(ConstraintViolationException.class)
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	public ResponseMsg HandleConstraintViolationException(ConstraintViolationException ex) {
+		String violationMsg = ex.getConstraintViolations().stream().findFirst().get().getMessage();
+		ResponseMsg response = new ResponseMsg(violationMsg);
 		return response;
 	}
 }
