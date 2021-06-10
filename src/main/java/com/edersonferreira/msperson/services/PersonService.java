@@ -31,8 +31,6 @@ public class PersonService {
 	@Autowired
 	private DocumentRepository documentRepository;
 	
-	private DocumentType documentType = DocumentType.PASSAPORT;
-	
 	@Transactional(readOnly = true)
 	public PersonDTO findById(Long id) {
 		Optional<Person> obj = repository.findById(id);
@@ -43,10 +41,6 @@ public class PersonService {
 	public PersonDTO create(PersonCreateDTO dto) {
 		Country country = this.findByIsoCode3(dto.getCountryIsoCode());
 		
-		if(country.getIsoCode3().equals("BRA")) {
-			documentType = DocumentType.CPF;
-		}
-		
 		Person person = new Person();
 		person.setName(dto.getName());
 		person.setBirthday(dto.getBirthday());
@@ -56,17 +50,23 @@ public class PersonService {
 		
 		person = repository.save(person);
 		
-		Document document = new Document();
-		document.setDocumentType(documentType);
-		document.setNumber(dto.getDocumentNumber());
-		document.setPerson(person);
-		document = documentRepository.save(document);
+		Document document = saveDocumentPerson(person, dto.getDocumentNumber(), country.getIsoCode3());
 		
 		Set<Document> documents = new HashSet<>();
 		documents.add(document);
 		person.setDocuments(documents);
 		
 		return new PersonDTO(person);
+	}
+	
+	private Document saveDocumentPerson(Person person, String documentNumber, String countryIsoCode) {
+		DocumentType documentType = (countryIsoCode.equalsIgnoreCase("bra") ? DocumentType.CPF : DocumentType.PASSAPORT);
+		Document document = new Document();
+		document.setDocumentType(documentType);
+		document.setPerson(person);
+		document.setNumber(documentNumber);
+		document = documentRepository.save(document);
+		return document;
 	}
 	
 	private Country findByIsoCode3(String isoCode) {
