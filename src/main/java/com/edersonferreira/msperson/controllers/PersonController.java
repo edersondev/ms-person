@@ -3,6 +3,7 @@ package com.edersonferreira.msperson.controllers;
 import java.net.URI;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,5 +39,11 @@ public class PersonController {
 		PersonDTO obj =  service.create(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).body(obj);
+	}
+	
+	@GetMapping(value = "/number/{nucpf}")
+	public ResponseEntity<PersonDTO> findByCpf(@PathVariable("nucpf") @NotBlank String nucpf) {
+		PersonDTO obj = service.findByCpf(nucpf);
+		return ResponseEntity.ok().body(obj);
 	}
 }

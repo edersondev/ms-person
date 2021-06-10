@@ -73,4 +73,9 @@ public class PersonService {
 		Optional<Country> obj = Optional.ofNullable(countryRepository.findByIsoCode3(isoCode.toUpperCase()));
 		return obj.orElseThrow(() -> new ResourceNotFoundException("Country code does not exist"));
 	}
+	
+	public PersonDTO findByCpf(String nucpf) {
+		Optional<PersonDTO> obj = Optional.ofNullable(repository.findByCpf(nucpf));
+		return obj.orElseThrow(() -> new ResourceNotFoundException("CPF informado não existe."));
+	}
 }
