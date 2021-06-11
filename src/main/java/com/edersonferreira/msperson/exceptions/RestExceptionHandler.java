@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.edersonferreira.msperson.model.controlleradvice.MethodArgumentNotValid;
 import com.edersonferreira.msperson.model.controlleradvice.ResponseMsg;
 import com.edersonferreira.msperson.services.exceptions.ResourceNotFoundException;
+import com.edersonferreira.msperson.services.exceptions.ValidationCpfCnpjException;
 
 @RestControllerAdvice
 public class RestExceptionHandler {
@@ -45,6 +46,13 @@ public class RestExceptionHandler {
 	public ResponseMsg HandleConstraintViolationException(ConstraintViolationException ex) {
 		String violationMsg = ex.getConstraintViolations().stream().findFirst().get().getMessage();
 		ResponseMsg response = new ResponseMsg(violationMsg);
+		return response;
+	}
+	
+	@ExceptionHandler(ValidationCpfCnpjException.class)
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	public ResponseMsg handleValidationCpfCnpjException(ValidationCpfCnpjException ex) {
+		ResponseMsg response = new ResponseMsg(ex.getMessage());
 		return response;
 	}
 }

@@ -12,7 +12,7 @@ import javax.validation.Payload;
 import com.edersonferreira.msperson.validator.CpfCnpjValidator;
 
 @Constraint(validatedBy = {CpfCnpjValidator.class})
-@Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE})
+@Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface CpfCnpj {

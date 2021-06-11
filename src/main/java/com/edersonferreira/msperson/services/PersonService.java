@@ -18,6 +18,8 @@ import com.edersonferreira.msperson.repositories.CountryRepository;
 import com.edersonferreira.msperson.repositories.DocumentRepository;
 import com.edersonferreira.msperson.repositories.PersonRepository;
 import com.edersonferreira.msperson.services.exceptions.ResourceNotFoundException;
+import com.edersonferreira.msperson.services.exceptions.ValidationCpfCnpjException;
+import com.edersonferreira.msperson.validator.ValidationCpfCnpj;
 
 @Service
 public class PersonService {
@@ -40,6 +42,10 @@ public class PersonService {
 	@Transactional
 	public PersonDTO create(PersonCreateDTO dto) {
 		Country country = this.findByIsoCode3(dto.getCountryIsoCode());
+		
+		if(country.getIsoCode3().equalsIgnoreCase("bra")) {
+			cpfCnpjIsValid(dto.getDocumentNumber());
+		}
 		
 		Person person = new Person();
 		person.setName(dto.getName());
@@ -67,6 +73,13 @@ public class PersonService {
 		document.setNumber(documentNumber);
 		document = documentRepository.save(document);
 		return document;
+	}
+	
+	private void cpfCnpjIsValid(String documentNumber) {
+		ValidationCpfCnpj validationDoc = new ValidationCpfCnpj(documentNumber);
+		if(!validationDoc.documentIsValid()) {
+			throw new ValidationCpfCnpjException("CPF/CNPJ inválido");
+		}
 	}
 	
 	private Country findByIsoCode3(String isoCode) {
