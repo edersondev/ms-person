@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.edersonferreira.msperson.model.enums.CivilStatus;
 import com.edersonferreira.msperson.model.enums.Gender;
 import com.edersonferreira.msperson.model.enums.SkinColor;
 
@@ -38,8 +39,13 @@ public class Person {
 	@Column(nullable = false)
 	private Integer skinColor;
 	
+	@Column(nullable = false, columnDefinition = "integer default 1")
+	private Integer civilStatus = 1;
+	
 	@Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	private Instant createdAt;
+	private Instant createdAt = Instant.now();
+	
+	private Instant updatedAt;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_country_origin",nullable = false)
@@ -51,7 +57,7 @@ public class Person {
 	public Person() {
 	}
 	
-	public Person(Long id, String name, LocalDate birthday, Gender gender, SkinColor skinColor) {
+	public Person(Long id, String name, LocalDate birthday, Gender gender, SkinColor skinColor, CivilStatus civilStatus) {
 		this.id = id;
 		this.name = name;
 		this.birthday = birthday;
@@ -103,12 +109,30 @@ public class Person {
 		}
 	}
 
+	public CivilStatus getCivilStatus() {
+		return CivilStatus.valueOf(civilStatus);
+	}
+
+	public void setCivilStatus(CivilStatus civilStatus) {
+		if(civilStatus != null) {
+			this.civilStatus = civilStatus.getCode();			
+		}
+	}
+
 	public Instant getCreatedAt() {
 		return createdAt;
 	}
 
 	public void setCreatedAt(Instant createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public Instant getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Instant updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 
 	public Country getCountry() {
