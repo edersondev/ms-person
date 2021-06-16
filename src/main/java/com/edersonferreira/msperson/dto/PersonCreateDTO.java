@@ -64,7 +64,7 @@ public class PersonCreateDTO implements Serializable {
 	}
 
 	public String getName() {
-		return name;
+		return name.trim();
 	}
 
 	public void setName(String name) {
