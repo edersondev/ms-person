@@ -80,6 +80,10 @@ public class PersonService {
 		if(!validationDoc.documentIsValid()) {
 			throw new ValidationCpfCnpjException("CPF/CNPJ inválido");
 		}
+		boolean docExists = documentRepository.existsByNumber(documentNumber);
+		if(docExists) {
+			throw new ValidationCpfCnpjException("Document number already exists");
+		}
 	}
 	
 	private Country findByIsoCode3(String isoCode) {

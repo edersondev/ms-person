@@ -6,4 +6,6 @@ import com.edersonferreira.msperson.model.entities.Document;
 
 public interface DocumentRepository extends JpaRepository<Document, Long> {
 
+	boolean existsByNumber(String documentNumber);
+
 }
