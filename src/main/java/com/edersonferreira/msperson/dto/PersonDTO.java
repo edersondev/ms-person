@@ -2,9 +2,6 @@ package com.edersonferreira.msperson.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import com.edersonferreira.msperson.model.entities.Country;
 import com.edersonferreira.msperson.model.entities.Person;
@@ -20,8 +17,6 @@ public class PersonDTO implements Serializable {
 	private Integer gender;
 	private Integer skinColor;
 	private Country country;
-	
-	private List<DocumentDTO> documents = new ArrayList<>();
 	
 	public PersonDTO() {
 	}
@@ -42,7 +37,6 @@ public class PersonDTO implements Serializable {
 		gender = entity.getGender().getCode();
 		skinColor = entity.getSkinColor().getCode();
 		country = entity.getCountry();
-		documents = entity.getDocuments().stream().map(x -> new DocumentDTO(x)).collect(Collectors.toList());
 	}
 
 	public Long getId() {
@@ -110,10 +104,6 @@ public class PersonDTO implements Serializable {
 
 	public void setCountry(Country country) {
 		this.country = country;
-	}
-
-	public List<DocumentDTO> getDocuments() {
-		return documents;
 	}
 	
 }
