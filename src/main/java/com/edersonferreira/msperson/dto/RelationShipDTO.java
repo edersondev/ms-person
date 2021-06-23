@@ -15,7 +15,8 @@ public class RelationShipDTO {
 	
 	public RelationShipDTO(Long idPersonParent, RelationshipType relationshipType, BondType bondType) {
 		this.idPersonParent = idPersonParent;
-		
+		setRelationshipType(relationshipType);
+		setBondType(bondType);
 	}
 
 	public RelationShipDTO(Relationship entity) {
