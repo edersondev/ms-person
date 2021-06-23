@@ -1,31 +1,27 @@
 package com.edersonferreira.msperson.dto;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.edersonferreira.msperson.model.entities.Person;
-import com.edersonferreira.msperson.model.entities.Relationship;
 
 public class PersonRelDTO extends PersonDTO {
 
 	private static final long serialVersionUID = 1L;
 
-	private Set<Relationship> parents = new HashSet<>();
+	private List<RelationShipDTO> parents = new ArrayList<>();
 	
 	public PersonRelDTO() {
 	}
 
 	public PersonRelDTO(Person entity) {
 		super(entity);
-		setParents(entity.getParents());
-	}
-	
-	public Set<Relationship> getParents() {
-		return parents;
+		parents = entity.getParents().stream().map(x -> new RelationShipDTO(x)).collect(Collectors.toList());
 	}
 
-	public void setParents(Set<Relationship> set) {
-		this.parents = set;
+	public List<RelationShipDTO> getParents() {
+		return parents;
 	}
 	
 }

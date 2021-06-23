@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.edersonferreira.msperson.model.enums.BondType;
@@ -18,8 +20,9 @@ public class Relationship {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(nullable = false)
-	private Long idPerson;
+	@ManyToOne
+	@JoinColumn(name = "id_person", nullable = false)
+	private Person idPerson;
 	
 	@Column(nullable = false)
 	private Long idPersonParent;
@@ -33,18 +36,17 @@ public class Relationship {
 	public Relationship() {
 	}
 
-	public Relationship(Long idPerson, Long idPersonParent, RelationshipType relationshipType, BondType bondType) {
-		this.idPerson = idPerson;
+	public Relationship(Long idPersonParent, RelationshipType relationshipType, BondType bondType) {
 		this.idPersonParent = idPersonParent;
 		setRelationshipType(relationshipType);
 		setBondType(bondType);
 	}
 
-	public Long getIdPerson() {
+	public Person getIdPerson() {
 		return idPerson;
 	}
 
-	public void setIdPerson(Long idPerson) {
+	public void setIdPerson(Person idPerson) {
 		this.idPerson = idPerson;
 	}
 

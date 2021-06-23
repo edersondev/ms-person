@@ -14,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import com.edersonferreira.msperson.model.enums.CivilStatus;
 import com.edersonferreira.msperson.model.enums.Gender;
@@ -55,7 +54,7 @@ public class Person {
 	@OneToMany(mappedBy = "person")
 	private Set<Document> documents = new HashSet<>();
 	
-	@Transient
+	@OneToMany(mappedBy = "idPerson")
 	private Set<Relationship> parents = new HashSet<>();
 	
 	public Person() {
