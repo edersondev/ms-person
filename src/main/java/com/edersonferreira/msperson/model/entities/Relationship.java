@@ -24,8 +24,9 @@ public class Relationship {
 	@JoinColumn(name = "id_person", nullable = false)
 	private Person idPerson;
 	
-	@Column(nullable = false)
-	private Long idPersonParent;
+	@ManyToOne
+	@JoinColumn(name = "id_person_parent", nullable = false)
+	private Person idPersonParent;
 	
 	@Column(nullable = false)
 	private Integer relationshipType;
@@ -36,8 +37,7 @@ public class Relationship {
 	public Relationship() {
 	}
 
-	public Relationship(Long idPersonParent, RelationshipType relationshipType, BondType bondType) {
-		this.idPersonParent = idPersonParent;
+	public Relationship(RelationshipType relationshipType, BondType bondType) {
 		setRelationshipType(relationshipType);
 		setBondType(bondType);
 	}
@@ -50,11 +50,11 @@ public class Relationship {
 		this.idPerson = idPerson;
 	}
 
-	public Long getIdPersonParent() {
+	public Person getIdPersonParent() {
 		return idPersonParent;
 	}
 
-	public void setIdPersonParent(Long idPersonParent) {
+	public void setIdPersonParent(Person idPersonParent) {
 		this.idPersonParent = idPersonParent;
 	}
 
