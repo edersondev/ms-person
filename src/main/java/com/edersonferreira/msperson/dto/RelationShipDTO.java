@@ -6,6 +6,7 @@ import com.edersonferreira.msperson.model.enums.RelationshipType;
 
 public class RelationShipDTO {
 
+	private Long id;
 	private String name;
 	private Integer relationshipType;
 	private Integer bondType;
@@ -23,6 +24,15 @@ public class RelationShipDTO {
 		relationshipType = entity.getRelationshipType().getCode();
 		bondType = entity.getBondType().getCode();
 		name = entity.getIdPersonParent().getName();
+		id = entity.getIdPersonParent().getId();
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getName() {
