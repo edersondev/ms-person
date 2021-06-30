@@ -13,8 +13,10 @@ import com.edersonferreira.msperson.dto.PersonRelCreateDTO;
 import com.edersonferreira.msperson.dto.RelationShipDTO;
 import com.edersonferreira.msperson.model.entities.Person;
 import com.edersonferreira.msperson.model.entities.Relationship;
+import com.edersonferreira.msperson.model.enums.RelationshipType;
 import com.edersonferreira.msperson.repositories.PersonRelRepository;
 import com.edersonferreira.msperson.repositories.PersonRepository;
+import com.edersonferreira.msperson.services.exceptions.RelationshipViolationException;
 import com.edersonferreira.msperson.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -37,7 +39,14 @@ public class PersonRelService {
 		Relationship relationship = new Relationship();
 		
 		Person idPerson = findPersonById(id);
+		
+		if(dto.getRelationshipType() == RelationshipType.FATHER || dto.getRelationshipType() == RelationshipType.MOTHER) {
+			checkRelationshipType(idPerson,dto);
+		}
+		
 		Person idPersonParent = findPersonById(dto.getIdPersonParent());
+		
+		checkPersonPersonParent(idPerson, idPersonParent);
 		
 		relationship.setIdPerson(idPerson);
 		relationship.setIdPersonParent(idPersonParent);
@@ -47,6 +56,22 @@ public class PersonRelService {
 		relationship = repository.save(relationship);
 		
 		return new RelationShipDTO(relationship);
+	}
+	
+	private void checkRelationshipType(Person idPerson, PersonRelCreateDTO dto) {
+		boolean existsRelationship = repository.existsByIdPersonAndRelationshipTypeAndBondType(
+				idPerson, dto.getRelationshipType().getCode(), dto.getBondType().getCode()
+		);
+		if(existsRelationship) {
+			throw new RelationshipViolationException("This person alredy has a " + dto.getRelationshipType());
+		}
+	}
+	
+	private void checkPersonPersonParent(Person idPerson, Person idPersonParent) {
+		boolean exists = repository.existsByIdPersonAndIdPersonParent(idPerson, idPersonParent);
+		if(exists) {
+			throw new RelationshipViolationException("Person alredy has relationship with this parent");
+		}
 	}
 	
 	private Person findPersonById(Long id) {

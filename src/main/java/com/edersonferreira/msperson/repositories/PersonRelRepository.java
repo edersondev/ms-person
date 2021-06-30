@@ -10,4 +10,8 @@ import com.edersonferreira.msperson.model.entities.Relationship;
 public interface PersonRelRepository extends JpaRepository<Relationship, Long> {
 
 	List<Relationship> findAllByIdPerson(Person idPerson);
+	
+	boolean existsByIdPersonAndRelationshipTypeAndBondType(Person idPerson,Integer relationshipType,Integer bondType);
+	
+	boolean existsByIdPersonAndIdPersonParent(Person idPerson, Person idPersonParent);
 }

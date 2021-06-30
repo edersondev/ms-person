@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.edersonferreira.msperson.model.controlleradvice.MethodArgumentNotValid;
 import com.edersonferreira.msperson.model.controlleradvice.ResponseMsg;
+import com.edersonferreira.msperson.services.exceptions.RelationshipViolationException;
 import com.edersonferreira.msperson.services.exceptions.ResourceNotFoundException;
 import com.edersonferreira.msperson.services.exceptions.ValidationCpfCnpjException;
 
@@ -21,7 +22,7 @@ public class RestExceptionHandler {
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
-	public MethodArgumentNotValid HandleNotValidException(MethodArgumentNotValidException ex) {
+	public MethodArgumentNotValid handleNotValidException(MethodArgumentNotValidException ex) {
 		
 		MethodArgumentNotValid responseMsg = new MethodArgumentNotValid();
 		
@@ -36,14 +37,14 @@ public class RestExceptionHandler {
 	
 	@ExceptionHandler(ResourceNotFoundException.class)
 	@ResponseStatus(code = HttpStatus.NOT_FOUND)
-	public ResponseMsg HandleNotFoundException(ResourceNotFoundException ex) {
+	public ResponseMsg handleNotFoundException(ResourceNotFoundException ex) {
 		ResponseMsg response = new ResponseMsg(ex.getMessage());
 		return response;
 	}
 	
 	@ExceptionHandler(ConstraintViolationException.class)
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
-	public ResponseMsg HandleConstraintViolationException(ConstraintViolationException ex) {
+	public ResponseMsg handleConstraintViolationException(ConstraintViolationException ex) {
 		String violationMsg = ex.getConstraintViolations().stream().findFirst().get().getMessage();
 		ResponseMsg response = new ResponseMsg(violationMsg);
 		return response;
@@ -52,6 +53,13 @@ public class RestExceptionHandler {
 	@ExceptionHandler(ValidationCpfCnpjException.class)
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	public ResponseMsg handleValidationCpfCnpjException(ValidationCpfCnpjException ex) {
+		ResponseMsg response = new ResponseMsg(ex.getMessage());
+		return response;
+	}
+	
+	@ExceptionHandler(RelationshipViolationException.class)
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	public ResponseMsg handleRelationshipViolationException(RelationshipViolationException ex) {
 		ResponseMsg response = new ResponseMsg(ex.getMessage());
 		return response;
 	}
