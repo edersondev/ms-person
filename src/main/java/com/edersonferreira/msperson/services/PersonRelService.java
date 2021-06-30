@@ -1,13 +1,15 @@
 package com.edersonferreira.msperson.services;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.edersonferreira.msperson.dto.PersonRelCreateDTO;
-import com.edersonferreira.msperson.dto.PersonRelDTO;
+import com.edersonferreira.msperson.dto.RelationShipDTO;
 import com.edersonferreira.msperson.model.entities.Person;
 import com.edersonferreira.msperson.model.entities.Relationship;
 import com.edersonferreira.msperson.repositories.PersonRelRepository;
@@ -18,23 +20,19 @@ import com.edersonferreira.msperson.services.exceptions.ResourceNotFoundExceptio
 public class PersonRelService {
 
 	@Autowired
-	private PersonRepository repository;
+	private PersonRelRepository repository;
 	
 	@Autowired
-	private PersonRelRepository personRelRepository;
+	private PersonRepository personRepository;
 	
-	@Transactional(readOnly = true)
-	public PersonRelDTO findById(Long id) {
-		Optional<Person> obj = repository.findById(id);
-		return obj.map(entity -> setObjDTO(entity)).orElseThrow(() -> new ResourceNotFoundException());
-	}
-	
-	private PersonRelDTO setObjDTO(Person entity) {
-		return new PersonRelDTO(entity);
+	public List<RelationShipDTO> findAllByIdPerson(Long id) {
+		Person idPerson = findPersonById(id);
+		List<Relationship> list = repository.findAllByIdPerson(idPerson); 
+		return list.stream().map(entity -> new RelationShipDTO(entity)).collect(Collectors.toList());
 	}
 	
 	@Transactional
-	public PersonRelDTO create(Long id, PersonRelCreateDTO dto) {
+	public RelationShipDTO create(Long id, PersonRelCreateDTO dto) {
 		Relationship relationship = new Relationship();
 		
 		Person idPerson = findPersonById(id);
@@ -45,13 +43,13 @@ public class PersonRelService {
 		relationship.setRelationshipType(dto.getRelationshipType());
 		relationship.setBondType(dto.getBondType());
 		
-		relationship = personRelRepository.save(relationship);
+		relationship = repository.save(relationship);
 		
-		return new PersonRelDTO(idPerson);
+		return new RelationShipDTO(relationship);
 	}
 	
 	private Person findPersonById(Long id) {
-		Optional<Person> person = repository.findById(id);
+		Optional<Person> person = personRepository.findById(id);
 		return person.orElseThrow(() -> new ResourceNotFoundException("Person code does not exist"));
 	}
 }

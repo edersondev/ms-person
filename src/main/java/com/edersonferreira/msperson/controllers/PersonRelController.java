@@ -1,6 +1,7 @@
 package com.edersonferreira.msperson.controllers;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -13,10 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.edersonferreira.msperson.dto.PersonRelCreateDTO;
-import com.edersonferreira.msperson.dto.PersonRelDTO;
+import com.edersonferreira.msperson.dto.RelationShipDTO;
 import com.edersonferreira.msperson.services.PersonRelService;
 
 @RestController
@@ -28,15 +28,14 @@ public class PersonRelController {
 	private PersonRelService service;
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<PersonRelDTO> findById(@PathVariable Long id) {
-		PersonRelDTO obj = service.findById(id);
-		return ResponseEntity.ok().body(obj);
+	public ResponseEntity<List<RelationShipDTO>> findAllByIdPerson(@PathVariable Long id) {
+		List<RelationShipDTO> list = service.findAllByIdPerson(id);
+		return ResponseEntity.ok().body(list);
 	}
 	
 	@PostMapping(value = "/{id}")
-	public ResponseEntity<PersonRelDTO> create(@PathVariable Long id, @Valid @RequestBody PersonRelCreateDTO dto){
-		PersonRelDTO obj = service.create(id, dto);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-		return ResponseEntity.created(uri).body(obj);
+	public ResponseEntity<RelationShipDTO> create(@PathVariable Long id, @Valid @RequestBody PersonRelCreateDTO dto){
+		RelationShipDTO obj = service.create(id, dto);
+		return ResponseEntity.created(URI.create("/persons/relationship" + id)).body(obj);
 	}
 }
