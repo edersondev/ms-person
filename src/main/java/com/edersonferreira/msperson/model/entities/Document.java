@@ -34,7 +34,7 @@ public class Document {
 	
 	@ManyToOne
 	@JoinColumn(name = "id_person", nullable = false)
-	private Person person;
+	private Person idPerson;
 	
 	public Document() {
 	}
@@ -90,11 +90,11 @@ public class Document {
 	}
 
 	public Person getPerson() {
-		return person;
+		return idPerson;
 	}
 
 	public void setPerson(Person person) {
-		this.person = person;
+		this.idPerson = person;
 	}
 	
 }

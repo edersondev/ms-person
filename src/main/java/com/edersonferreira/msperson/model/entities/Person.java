@@ -51,7 +51,7 @@ public class Person {
 	@JoinColumn(name = "id_country_origin",nullable = false)
 	private Country country;
 	
-	@OneToMany(mappedBy = "person")
+	@OneToMany(mappedBy = "idPerson")
 	private Set<Document> documents = new HashSet<>();
 	
 	@OneToMany(mappedBy = "idPerson")
