@@ -14,16 +14,16 @@ import com.edersonferreira.msperson.dto.RelationShipDTO;
 import com.edersonferreira.msperson.model.entities.Person;
 import com.edersonferreira.msperson.model.entities.Relationship;
 import com.edersonferreira.msperson.model.enums.RelationshipType;
-import com.edersonferreira.msperson.repositories.PersonRelRepository;
+import com.edersonferreira.msperson.repositories.RelationshipRepository;
 import com.edersonferreira.msperson.repositories.PersonRepository;
 import com.edersonferreira.msperson.services.exceptions.RelationshipViolationException;
 import com.edersonferreira.msperson.services.exceptions.ResourceNotFoundException;
 
 @Service
-public class PersonRelService {
+public class RelationshipService {
 
 	@Autowired
-	private PersonRelRepository repository;
+	private RelationshipRepository repository;
 	
 	@Autowired
 	private PersonRepository personRepository;

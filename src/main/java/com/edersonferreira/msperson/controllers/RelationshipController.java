@@ -18,15 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.edersonferreira.msperson.dto.PersonRelCreateDTO;
 import com.edersonferreira.msperson.dto.RelationShipDTO;
-import com.edersonferreira.msperson.services.PersonRelService;
+import com.edersonferreira.msperson.services.RelationshipService;
 
 @RestController
 @RequestMapping(value = "/persons/relationship")
 @Validated
-public class PersonRelController {
+public class RelationshipController {
 
 	@Autowired
-	private PersonRelService service;
+	private RelationshipService service;
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<List<RelationShipDTO>> findAllByIdPerson(@PathVariable Long id) {
