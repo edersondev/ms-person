@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,5 +52,13 @@ public class PersonRelService {
 	private Person findPersonById(Long id) {
 		Optional<Person> person = personRepository.findById(id);
 		return person.orElseThrow(() -> new ResourceNotFoundException("Person code does not exist"));
+	}
+	
+	public void deleteById(Long id) {
+		try {			
+			repository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException("Resource not found: " + id);
+		}
 	}
 }
