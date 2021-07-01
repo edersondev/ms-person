@@ -14,6 +14,7 @@ import com.edersonferreira.msperson.model.entities.Person;
 import com.edersonferreira.msperson.repositories.DocumentRepository;
 import com.edersonferreira.msperson.repositories.PersonRepository;
 import com.edersonferreira.msperson.services.exceptions.ResourceNotFoundException;
+import com.edersonferreira.msperson.services.exceptions.ValidationCpfCnpjException;
 
 @Service
 public class DocumentService {
@@ -33,12 +34,21 @@ public class DocumentService {
 	public DocumentDTO create(Long id, DocumentCreateDTO dto) {
 		Person person = findPersonById(id);
 		
+		checkDocumentTypeExists(person,dto.getDocumentType().getCode());
+		
 		Document document = new Document();
 		document.setNumber(dto.getNumber());
 		document.setDocumentType(dto.getDocumentType());
 		document.setPerson(person);
 		document = repository.save(document);
 		return new DocumentDTO(document);
+	}
+	
+	public void checkDocumentTypeExists(Person idPerson, Integer documentType) {
+		boolean check = repository.existsByidPersonAndDocumentType(idPerson, documentType);
+		if(check) {
+			throw new ValidationCpfCnpjException("The document type alredy exists");
+		}
 	}
 	
 	private Person findPersonById(Long id) {

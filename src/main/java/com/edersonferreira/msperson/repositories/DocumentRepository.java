@@ -12,4 +12,6 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
 	boolean existsByNumber(String documentNumber);
 
 	List<Document> findAllByIdPerson(Person idPerson);
+	
+	boolean existsByidPersonAndDocumentType(Person idPerson,Integer documentType);
 }
