@@ -1,7 +1,6 @@
 package com.edersonferreira.msperson.services;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,6 @@ import com.edersonferreira.msperson.dto.DocumentDTO;
 import com.edersonferreira.msperson.model.entities.Document;
 import com.edersonferreira.msperson.model.entities.Person;
 import com.edersonferreira.msperson.repositories.DocumentRepository;
-import com.edersonferreira.msperson.repositories.PersonRepository;
-import com.edersonferreira.msperson.services.exceptions.ResourceNotFoundException;
 import com.edersonferreira.msperson.services.exceptions.ValidationCpfCnpjException;
 
 @Service
@@ -21,18 +18,18 @@ public class DocumentService {
 
 	@Autowired
 	private DocumentRepository repository;
-	
+
 	@Autowired
-	private PersonRepository personRepository;
+	private PersonService personService;
 	
 	public List<DocumentDTO> findAllByIdPerson(Long id){
-		Person person = findPersonById(id);
+		Person person = personService.findPersonById(id);
 		List<Document> list = repository.findAllByIdPerson(person);
 		return list.stream().map(entity -> new DocumentDTO(entity)).collect(Collectors.toList());
 	}
 	
 	public DocumentDTO create(Long id, DocumentCreateDTO dto) {
-		Person person = findPersonById(id);
+		Person person = personService.findPersonById(id);
 		
 		checkDocumentTypeExists(person,dto.getDocumentType().getCode());
 		
@@ -51,8 +48,4 @@ public class DocumentService {
 		}
 	}
 	
-	private Person findPersonById(Long id) {
-		Optional<Person> person = personRepository.findById(id);
-		return person.orElseThrow(() -> new ResourceNotFoundException("Person code does not exist"));
-	}
 }

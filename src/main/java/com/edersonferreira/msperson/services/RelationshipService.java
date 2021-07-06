@@ -1,7 +1,6 @@
 package com.edersonferreira.msperson.services;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import com.edersonferreira.msperson.model.entities.Person;
 import com.edersonferreira.msperson.model.entities.Relationship;
 import com.edersonferreira.msperson.model.enums.RelationshipType;
 import com.edersonferreira.msperson.repositories.RelationshipRepository;
-import com.edersonferreira.msperson.repositories.PersonRepository;
 import com.edersonferreira.msperson.services.exceptions.RelationshipViolationException;
 import com.edersonferreira.msperson.services.exceptions.ResourceNotFoundException;
 
@@ -26,10 +24,10 @@ public class RelationshipService {
 	private RelationshipRepository repository;
 	
 	@Autowired
-	private PersonRepository personRepository;
+	private PersonService personService;
 	
 	public List<RelationShipDTO> findAllByIdPerson(Long id) {
-		Person idPerson = findPersonById(id);
+		Person idPerson = personService.findPersonById(id);
 		List<Relationship> list = repository.findAllByIdPerson(idPerson); 
 		return list.stream().map(entity -> new RelationShipDTO(entity)).collect(Collectors.toList());
 	}
@@ -38,13 +36,13 @@ public class RelationshipService {
 	public RelationShipDTO create(Long id, PersonRelCreateDTO dto) {
 		Relationship relationship = new Relationship();
 		
-		Person idPerson = findPersonById(id);
+		Person idPerson = personService.findPersonById(id);
 		
 		if(dto.getRelationshipType() == RelationshipType.FATHER || dto.getRelationshipType() == RelationshipType.MOTHER) {
 			checkRelationshipType(idPerson,dto);
 		}
 		
-		Person idPersonParent = findPersonById(dto.getIdPersonParent());
+		Person idPersonParent = personService.findPersonById(dto.getIdPersonParent());
 		
 		checkPersonPersonParent(idPerson, idPersonParent);
 		
@@ -72,11 +70,6 @@ public class RelationshipService {
 		if(exists) {
 			throw new RelationshipViolationException("Person alredy has relationship with this parent");
 		}
-	}
-	
-	private Person findPersonById(Long id) {
-		Optional<Person> person = personRepository.findById(id);
-		return person.orElseThrow(() -> new ResourceNotFoundException("Person code does not exist"));
 	}
 	
 	public void deleteById(Long id) {
