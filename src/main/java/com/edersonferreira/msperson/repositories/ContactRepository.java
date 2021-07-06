@@ -10,4 +10,6 @@ import com.edersonferreira.msperson.model.entities.Person;
 public interface ContactRepository extends JpaRepository<Contact, Long> {
 
 	List<Contact> findAllByIdPerson(Person idPerson);
+	
+	boolean existsByContent(String content);
 }
