@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.edersonferreira.msperson.dto.ContactCreateDTO;
 import com.edersonferreira.msperson.dto.ContactDTO;
 import com.edersonferreira.msperson.model.entities.Contact;
 import com.edersonferreira.msperson.model.entities.Person;
@@ -24,5 +25,15 @@ public class ContactService {
 		Person person = personService.findPersonById(id);
 		List<Contact> list = repository.findAllByIdPerson(person);
 		return list.stream().map(entity -> new ContactDTO(entity)).collect(Collectors.toList());
+	}
+	
+	public ContactDTO create(Long id, ContactCreateDTO dto) {
+		Person person = personService.findPersonById(id);
+		Contact contact = new Contact();
+		contact.setContent(dto.getContent());
+		contact.setContactType(dto.getContactType());
+		contact.setPerson(person);
+		contact = repository.save(contact);
+		return new ContactDTO(contact);
 	}
 }
