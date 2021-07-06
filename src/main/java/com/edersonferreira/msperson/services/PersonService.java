@@ -95,4 +95,9 @@ public class PersonService {
 		Optional<PersonDTO> obj = Optional.ofNullable(repository.findByCpf(nucpf));
 		return obj.orElseThrow(() -> new ResourceNotFoundException("CPF informado não existe."));
 	}
+	
+	public Person findPersonById(Long id) {
+		Optional<Person> person = repository.findById(id);
+		return person.orElseThrow(() -> new ResourceNotFoundException("Person code does not exist"));
+	}
 }
