@@ -32,8 +32,10 @@ public class ContactService {
 	}
 	
 	public ContactDTO create(Long id, ContactCreateDTO dto) {
+		
+		validateContent(dto.getContent(), dto.getContactType());
+		
 		if(dto.getContactType() == ContactType.EMAIL) {
-			validateEmail(dto.getContent());
 			checkEmailExists(dto.getContent());
 		}
 		
@@ -47,11 +49,19 @@ public class ContactService {
 		return new ContactDTO(contact);
 	}
 	
-	private void validateEmail(String email) {
-		Pattern regex = Pattern.compile("\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b");
-		Matcher matcher = regex.matcher(email);
+	private void validateContent(String content, ContactType contactType) {
+		String patternRegex = "\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b";
+		String messageException = "Invalid email";
+		
+		if(contactType != ContactType.EMAIL) {
+			patternRegex = "^\\d{10,11}$";
+			messageException = "Invalid phone";
+		}
+		
+		Pattern regex = Pattern.compile(patternRegex);
+		Matcher matcher = regex.matcher(content);
 		if(!matcher.find()) {
-			throw new ContactContentException("Email invalid");
+			throw new ContactContentException(messageException);
 		}
 	}
 	
