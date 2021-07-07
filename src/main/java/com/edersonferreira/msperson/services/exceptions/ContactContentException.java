@@ -4,15 +4,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Invalid email")
-public class ValidationEmailException extends RuntimeException {
+public class ContactContentException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 	
-	public ValidationEmailException() {
+	public ContactContentException() {
 		super();
 	}
 	
-	public ValidationEmailException(String message) {
+	public ContactContentException(String message) {
 		super(message);
 	}
 

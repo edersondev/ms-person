@@ -14,7 +14,7 @@ import com.edersonferreira.msperson.model.entities.Contact;
 import com.edersonferreira.msperson.model.entities.Person;
 import com.edersonferreira.msperson.model.enums.ContactType;
 import com.edersonferreira.msperson.repositories.ContactRepository;
-import com.edersonferreira.msperson.services.exceptions.ValidationEmailException;
+import com.edersonferreira.msperson.services.exceptions.ContactContentException;
 
 @Service
 public class ContactService {
@@ -51,14 +51,14 @@ public class ContactService {
 		Pattern regex = Pattern.compile("\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b");
 		Matcher matcher = regex.matcher(email);
 		if(!matcher.find()) {
-			throw new ValidationEmailException("Email invalid");
+			throw new ContactContentException("Email invalid");
 		}
 	}
 	
 	private void checkEmailExists(String email) {
 		boolean exists = repository.existsByContent(email);
 		if(exists) {
-			throw new ValidationEmailException("The email " + email + " alredy exists");
+			throw new ContactContentException("The email " + email + " alredy exists");
 		}
 	}
 }

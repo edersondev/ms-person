@@ -16,7 +16,7 @@ import com.edersonferreira.msperson.model.controlleradvice.ResponseMsg;
 import com.edersonferreira.msperson.services.exceptions.RelationshipViolationException;
 import com.edersonferreira.msperson.services.exceptions.ResourceNotFoundException;
 import com.edersonferreira.msperson.services.exceptions.ValidationCpfCnpjException;
-import com.edersonferreira.msperson.services.exceptions.ValidationEmailException;
+import com.edersonferreira.msperson.services.exceptions.ContactContentException;
 
 @RestControllerAdvice
 public class RestExceptionHandler {
@@ -65,9 +65,9 @@ public class RestExceptionHandler {
 		return response;
 	}
 	
-	@ExceptionHandler(ValidationEmailException.class)
+	@ExceptionHandler(ContactContentException.class)
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
-	public ResponseMsg handleValidationEmailException(ValidationEmailException ex) {
+	public ResponseMsg handleValidationEmailException(ContactContentException ex) {
 		ResponseMsg response = new ResponseMsg(ex.getMessage());
 		return response;
 	}
