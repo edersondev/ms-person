@@ -51,23 +51,13 @@ public class RestExceptionHandler {
 		return response;
 	}
 	
-	@ExceptionHandler(ValidationCpfCnpjException.class)
+	@ExceptionHandler(value = {
+			ContactContentException.class,
+			RelationshipViolationException.class,
+			ValidationCpfCnpjException.class
+	})
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
-	public ResponseMsg handleValidationCpfCnpjException(ValidationCpfCnpjException ex) {
-		ResponseMsg response = new ResponseMsg(ex.getMessage());
-		return response;
-	}
-	
-	@ExceptionHandler(RelationshipViolationException.class)
-	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
-	public ResponseMsg handleRelationshipViolationException(RelationshipViolationException ex) {
-		ResponseMsg response = new ResponseMsg(ex.getMessage());
-		return response;
-	}
-	
-	@ExceptionHandler(ContactContentException.class)
-	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
-	public ResponseMsg handleValidationEmailException(ContactContentException ex) {
+	public ResponseMsg handleCommonBadRequestException(RuntimeException ex) {
 		ResponseMsg response = new ResponseMsg(ex.getMessage());
 		return response;
 	}
