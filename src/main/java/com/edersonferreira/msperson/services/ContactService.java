@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.edersonferreira.msperson.dto.ContactCreateDTO;
@@ -15,6 +16,7 @@ import com.edersonferreira.msperson.model.entities.Person;
 import com.edersonferreira.msperson.model.enums.ContactType;
 import com.edersonferreira.msperson.repositories.ContactRepository;
 import com.edersonferreira.msperson.services.exceptions.ContactContentException;
+import com.edersonferreira.msperson.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class ContactService {
@@ -69,6 +71,14 @@ public class ContactService {
 		boolean exists = repository.existsByContent(email);
 		if(exists) {
 			throw new ContactContentException("The email " + email + " alredy exists");
+		}
+	}
+	
+	public void deleteById(Long id) {
+		try {			
+			repository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException("Resource not found: " + id);
 		}
 	}
 }
