@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.edersonferreira.msperson.model.enums.CivilStatus;
@@ -56,6 +57,9 @@ public class Person {
 	
 	@OneToMany(mappedBy = "idPerson")
 	private Set<Relationship> parents = new HashSet<>();
+	
+	@OneToOne(mappedBy = "idPerson")
+	private Address address;
 	
 	public Person() {
 	}
@@ -160,6 +164,14 @@ public class Person {
 
 	public void setParents(Set<Relationship> parents) {
 		this.parents = parents;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 	
 }

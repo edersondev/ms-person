@@ -9,9 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import com.edersonferreira.msperson.model.enums.Status;
 
 @Entity
 @Table(name = "tb_address")
@@ -32,40 +31,33 @@ public class Address {
 	
 	private String complement;
 	
-	@Column(nullable = false)
-	private String city;
+	@ManyToOne
+	@JoinColumn(name = "id_city", nullable = false)
+	private City idCity;
 	
 	private String district;
-	
-	@Column(nullable = false)
-	private Integer status;
 	
 	@Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Instant createdAt;
 	
 	private Instant updatedAt;
 	
-	@ManyToOne
-	@JoinColumn(name = "id_state", nullable = false)
-	private State state;
-	
-	@ManyToOne
-	@JoinColumn(name = "id_person", nullable = false)
+	@OneToOne
+	@JoinColumn(name = "id_person", nullable = false, unique = true)
 	private Person idPerson;
 	
 	public Address() {
 	}
 
-	public Address(Long id, String postCode, String street, Integer number, String complement, String city,
-			String district, State state) {
+	public Address(Long id, String postCode, String street, Integer number, String complement, City idCity,
+			String district) {
 		this.id = id;
 		this.postCode = postCode;
 		this.street = street;
 		this.number = number;
 		this.complement = complement;
-		this.city = city;
+		this.idCity = idCity;
 		this.district = district;
-		this.state = state;
 	}
 
 	public Long getId() {
@@ -108,12 +100,12 @@ public class Address {
 		this.complement = complement;
 	}
 
-	public String getCity() {
-		return city;
+	public City getIdCity() {
+		return idCity;
 	}
 
-	public void setCity(String city) {
-		this.city = city;
+	public void setIdCity(City idCity) {
+		this.idCity = idCity;
 	}
 
 	public String getDistrict() {
@@ -140,30 +132,12 @@ public class Address {
 		this.updatedAt = updatedAt;
 	}
 
-	public Status getStatus() {
-		return Status.valueOf(status);
-	}
-
-	public void setStatus(Status status) {
-		if(status != null) {
-			this.status = status.getCode();			
-		}
-	}
-
-	public State getState() {
-		return state;
-	}
-
-	public void setState(State state) {
-		this.state = state;
-	}
-
-	public Person getPerson() {
+	public Person getIdPerson() {
 		return idPerson;
 	}
 
-	public void setPerson(Person person) {
-		this.idPerson = person;
+	public void setIdPerson(Person idPerson) {
+		this.idPerson = idPerson;
 	}
 	
 }

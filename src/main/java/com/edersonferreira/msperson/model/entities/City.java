@@ -10,32 +10,31 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tb_state")
-public class State {
+@Table(name = "tb_city")
+public class City {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(length = 2, nullable = false)
-	private Integer codeUf;
+	@Column(nullable = false)
+	private Long code;
 	
-	@Column(length = 100, nullable = false)
+	@Column(nullable = false)
 	private String name;
 	
-	@Column(length = 2, nullable = false)
-	private String uf;
-	
 	@ManyToOne
-	@JoinColumn(name = "id_region", nullable = false)
-	private Region region;
+	@JoinColumn(name = "id_state", nullable = false)
+	private State idState;
 	
-	public State() {
+	public City() {
 	}
 
-	public State(Long id, String name) {
+	public City(Long id, Long code, String name, State idState) {
 		this.id = id;
+		this.code = code;
 		this.name = name;
+		this.idState = idState;
 	}
 
 	public Long getId() {
@@ -46,12 +45,12 @@ public class State {
 		this.id = id;
 	}
 
-	public Integer getCodeUf() {
-		return codeUf;
+	public Long getCode() {
+		return code;
 	}
 
-	public void setCodeUf(Integer codeUf) {
-		this.codeUf = codeUf;
+	public void setCode(Long code) {
+		this.code = code;
 	}
 
 	public String getName() {
@@ -61,21 +60,13 @@ public class State {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public String getUf() {
-		return uf;
+
+	public State getIdState() {
+		return idState;
 	}
 
-	public void setUf(String uf) {
-		this.uf = uf;
-	}
-
-	public Region getRegion() {
-		return region;
-	}
-
-	public void setRegion(Region region) {
-		this.region = region;
+	public void setIdState(State idState) {
+		this.idState = idState;
 	}
 	
 }
