@@ -12,7 +12,9 @@ public class AddressDTO {
 	private Integer number;
 	private String complement;
 	private String city;
+	private Long codeCity;
 	private String uf;
+	private Integer codeUf;
 	private String district;
 	private Instant createdAt;
 	private Instant updatedAt;
@@ -21,18 +23,22 @@ public class AddressDTO {
 	}
 
 	public AddressDTO(Long id, String postCode, String street, Integer number, String complement, String city,
-			String uf, String district, Instant createdAt, Instant updatedAt) {
+			Long codeCity, String uf, Integer codeUf, String district, Instant createdAt, Instant updatedAt) {
 		this.id = id;
 		this.postCode = postCode;
 		this.street = street;
 		this.number = number;
 		this.complement = complement;
 		this.city = city;
+		this.codeCity = codeCity;
 		this.uf = uf;
+		this.codeUf = codeUf;
 		this.district = district;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}
+
+
 
 	public AddressDTO(Address entity) {
 		id = entity.getId();
@@ -41,7 +47,9 @@ public class AddressDTO {
 		number = entity.getNumber();
 		complement = entity.getComplement();
 		city = entity.getIdCity().getName();
+		codeCity = entity.getIdCity().getCode();
 		uf = entity.getIdCity().getIdState().getUf();
+		codeUf = entity.getIdCity().getIdState().getCodeUf();
 		district = entity.getDistrict();
 		createdAt = entity.getCreatedAt();
 		updatedAt = entity.getUpdatedAt();
@@ -95,12 +103,28 @@ public class AddressDTO {
 		this.city = city;
 	}
 
+	public Long getCodeCity() {
+		return codeCity;
+	}
+
+	public void setCodeCity(Long codeCity) {
+		this.codeCity = codeCity;
+	}
+
 	public String getUf() {
 		return uf;
 	}
 
 	public void setUf(String uf) {
 		this.uf = uf;
+	}
+
+	public Integer getCodeUf() {
+		return codeUf;
+	}
+
+	public void setCodeUf(Integer codeUf) {
+		this.codeUf = codeUf;
 	}
 
 	public String getDistrict() {
