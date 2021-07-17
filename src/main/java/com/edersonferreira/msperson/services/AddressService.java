@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.edersonferreira.msperson.dto.AddressCreateDTO;
 import com.edersonferreira.msperson.dto.AddressDTO;
 import com.edersonferreira.msperson.model.entities.Address;
-import com.edersonferreira.msperson.model.entities.City;
 import com.edersonferreira.msperson.model.entities.Person;
 import com.edersonferreira.msperson.repositories.AddressRepository;
 import com.edersonferreira.msperson.services.exceptions.ResourceNotFoundException;
@@ -23,9 +22,6 @@ public class AddressService {
 	@Autowired
 	private PersonService personService;
 	
-	@Autowired
-	private CityService cityService;
-	
 	public AddressDTO findByPerson(Long id) {
 		Person person = personService.findPersonById(id);
 		Optional<Address> address = repository.findByIdPerson(person);
@@ -34,7 +30,6 @@ public class AddressService {
 	
 	public AddressDTO createOrUpdate(Long id, AddressCreateDTO dto) {
 		Person person = personService.findPersonById(id);
-		City idCity = cityService.findByCode(dto.getCodeCity());
 		Optional<Address> addressExists = repository.findByIdPerson(person);
 		
 		Address address = new Address();
@@ -42,7 +37,7 @@ public class AddressService {
 		address.setStreet(dto.getStreet());
 		address.setNumber(dto.getNumber());
 		address.setComplement(dto.getComplement());
-		address.setIdCity(idCity);
+		address.setCityCode(dto.getCityCode());
 		address.setDistrict(dto.getDistrict());
 		address.setIdPerson(person);
 		address.setCreatedAt(Instant.now());

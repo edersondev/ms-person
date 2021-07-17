@@ -4,11 +4,9 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 import com.edersonferreira.msperson.annotation.EnumValidator;
 import com.edersonferreira.msperson.model.entities.Person;
@@ -35,10 +33,8 @@ public class PersonCreateDTO implements Serializable {
 	@EnumValidator(enumClass=SkinColor.class)
 	private String skinColor;
 	
-	@NotEmpty
-	@Pattern(regexp="^[A-Za-z]*$",message = "Allow only string")
-	@Size(max = 3)
-	private String countryIsoCode;
+	@NotNull
+	private Integer countryCodeOrigin;
 	
 	@NotNull
 	private String documentNumber;
@@ -46,10 +42,10 @@ public class PersonCreateDTO implements Serializable {
 	public PersonCreateDTO() {
 	}
 
-	public PersonCreateDTO(String name, LocalDate birthday, String gender, String skinColor, String countryIsoCode, String documentNumber) {
+	public PersonCreateDTO(String name, LocalDate birthday, String gender, String skinColor, Integer countryCodeOrigin, String documentNumber) {
 		this.name = name;
 		this.birthday = birthday;
-		this.countryIsoCode = countryIsoCode;
+		this.countryCodeOrigin = countryCodeOrigin;
 		this.gender = gender.toUpperCase();
 		this.skinColor = skinColor;
 		this.documentNumber = documentNumber;
@@ -60,7 +56,7 @@ public class PersonCreateDTO implements Serializable {
 		this.birthday = entity.getBirthday();
 		this.gender = entity.getGender().toString();
 		this.skinColor = entity.getSkinColor().toString();
-		this.countryIsoCode = entity.getCountry().getIsoCode3();
+		this.countryCodeOrigin = entity.getCountryCodeOrigin();
 	}
 
 	public String getName() {
@@ -95,12 +91,12 @@ public class PersonCreateDTO implements Serializable {
 		this.skinColor = skinColor;
 	}
 
-	public String getCountryIsoCode() {
-		return countryIsoCode;
+	public Integer getCountryCodeOrigin() {
+		return countryCodeOrigin;
 	}
 
-	public void setCountryIsoCode(String countryIsoCode) {
-		this.countryIsoCode = countryIsoCode;
+	public void setCountryCodeOrigin(Integer countryCodeOrigin) {
+		this.countryCodeOrigin = countryCodeOrigin;
 	}
 
 	public String getDocumentNumber() {

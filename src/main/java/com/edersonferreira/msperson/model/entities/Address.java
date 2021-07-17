@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -31,9 +30,8 @@ public class Address {
 	
 	private String complement;
 	
-	@ManyToOne
-	@JoinColumn(name = "id_city", nullable = false)
-	private City idCity;
+	@Column(nullable = false)
+	private Long cityCode;
 	
 	private String district;
 	
@@ -49,14 +47,14 @@ public class Address {
 	public Address() {
 	}
 
-	public Address(Long id, String postCode, String street, Integer number, String complement, City idCity,
+	public Address(Long id, String postCode, String street, Integer number, String complement, Long cityCode,
 			String district) {
 		this.id = id;
 		this.postCode = postCode;
 		this.street = street;
 		this.number = number;
 		this.complement = complement;
-		this.idCity = idCity;
+		this.cityCode = cityCode;
 		this.district = district;
 	}
 
@@ -100,12 +98,12 @@ public class Address {
 		this.complement = complement;
 	}
 
-	public City getIdCity() {
-		return idCity;
+	public Long getCityCode() {
+		return cityCode;
 	}
 
-	public void setIdCity(City idCity) {
-		this.idCity = idCity;
+	public void setCityCode(Long cityCode) {
+		this.cityCode = cityCode;
 	}
 
 	public String getDistrict() {

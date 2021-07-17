@@ -3,7 +3,6 @@ package com.edersonferreira.msperson.dto;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-import com.edersonferreira.msperson.model.entities.Country;
 import com.edersonferreira.msperson.model.entities.Person;
 import com.edersonferreira.msperson.model.enums.Gender;
 import com.edersonferreira.msperson.model.enums.SkinColor;
@@ -16,16 +15,16 @@ public class PersonDTO implements Serializable {
 	private LocalDate birthday;
 	private Integer gender;
 	private Integer skinColor;
-	private Country country;
+	private Integer countryCodeOrigin;
 	
 	public PersonDTO() {
 	}
 	
-	public PersonDTO(Long id, String name, LocalDate birthday, Gender gender, SkinColor skinColor, Country country) {
+	public PersonDTO(Long id, String name, LocalDate birthday, Gender gender, SkinColor skinColor, Integer countryCodeOrigin) {
 		this.id = id;
 		this.name = name;
 		this.birthday = birthday;
-		this.country = country;
+		this.countryCodeOrigin = countryCodeOrigin;
 		setGender(gender);
 		setSkinColor(skinColor);
 	}
@@ -36,7 +35,7 @@ public class PersonDTO implements Serializable {
 		birthday = entity.getBirthday();
 		gender = entity.getGender().getCode();
 		skinColor = entity.getSkinColor().getCode();
-		country = entity.getCountry();
+		countryCodeOrigin = entity.getCountryCodeOrigin();
 	}
 
 	public Long getId() {
@@ -98,12 +97,12 @@ public class PersonDTO implements Serializable {
 		}
 	}
 
-	public String getCountry() {
-		return country.getName();
+	public Integer getCountryCodeOrigin() {
+		return countryCodeOrigin;
 	}
 
-	public void setCountry(Country country) {
-		this.country = country;
+	public void setCountryCodeOrigin(Integer countryCodeOrigin) {
+		this.countryCodeOrigin = countryCodeOrigin;
 	}
 	
 }

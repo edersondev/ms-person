@@ -10,8 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -48,9 +46,8 @@ public class Person {
 	
 	private Instant updatedAt;
 	
-	@ManyToOne
-	@JoinColumn(name = "id_country_origin",nullable = false)
-	private Country country;
+	@Column(length = 6, nullable = false)
+	private Integer countryCodeOrigin;
 	
 	@OneToMany(mappedBy = "idPerson")
 	private Set<Document> documents = new HashSet<>();
@@ -64,12 +61,13 @@ public class Person {
 	public Person() {
 	}
 	
-	public Person(Long id, String name, LocalDate birthday, Gender gender, SkinColor skinColor, CivilStatus civilStatus) {
+	public Person(Long id, String name, LocalDate birthday, Gender gender, SkinColor skinColor, CivilStatus civilStatus, Integer countryCodeOrigin) {
 		this.id = id;
 		this.name = name;
 		this.birthday = birthday;
 		setGender(gender);
 		setSkinColor(skinColor);
+		this.countryCodeOrigin = countryCodeOrigin;
 	}
 
 	public Long getId() {
@@ -142,14 +140,14 @@ public class Person {
 		this.updatedAt = updatedAt;
 	}
 
-	public Country getCountry() {
-		return country;
+	public Integer getCountryCodeOrigin() {
+		return countryCodeOrigin;
 	}
 
-	public void setCountry(Country country) {
-		this.country = country;
+	public void setCountryCodeOrigin(Integer countryCodeOrigin) {
+		this.countryCodeOrigin = countryCodeOrigin;
 	}
-	
+
 	public Set<Document> getDocuments() {
 		return documents;
 	}

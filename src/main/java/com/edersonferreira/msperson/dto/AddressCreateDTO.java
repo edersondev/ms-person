@@ -18,7 +18,7 @@ public class AddressCreateDTO {
 	private String complement;
 	
 	@NotNull
-	private Long codeCity;
+	private Long cityCode;
 	
 	@NotNull
 	private String district;
@@ -26,12 +26,12 @@ public class AddressCreateDTO {
 	public AddressCreateDTO() {
 	}
 
-	public AddressCreateDTO(String postCode, String street, Integer number, String complement, Long codeCity, String district) {
+	public AddressCreateDTO(String postCode, String street, Integer number, String complement, Long cityCode, String district) {
 		this.postCode = postCode;
 		this.street = street;
 		this.number = number;
 		this.complement = complement;
-		this.codeCity = codeCity;
+		this.cityCode = cityCode;
 		this.district = district;
 	}
 
@@ -67,12 +67,12 @@ public class AddressCreateDTO {
 		this.complement = complement;
 	}
 
-	public Long getCodeCity() {
-		return codeCity;
+	public Long getCityCode() {
+		return cityCode;
 	}
 
-	public void setCodeCity(Long codeCity) {
-		this.codeCity = codeCity;
+	public void setCityCode(Long cityCode) {
+		this.cityCode = cityCode;
 	}
 
 	public String getDistrict() {

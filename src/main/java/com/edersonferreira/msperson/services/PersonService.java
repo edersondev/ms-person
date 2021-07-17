@@ -10,11 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.edersonferreira.msperson.dto.PersonCreateDTO;
 import com.edersonferreira.msperson.dto.PersonDTO;
-import com.edersonferreira.msperson.model.entities.Country;
 import com.edersonferreira.msperson.model.entities.Document;
 import com.edersonferreira.msperson.model.entities.Person;
 import com.edersonferreira.msperson.model.enums.DocumentType;
-import com.edersonferreira.msperson.repositories.CountryRepository;
 import com.edersonferreira.msperson.repositories.DocumentRepository;
 import com.edersonferreira.msperson.repositories.PersonRepository;
 import com.edersonferreira.msperson.services.exceptions.ResourceNotFoundException;
@@ -23,12 +21,11 @@ import com.edersonferreira.msperson.validator.ValidationCpfCnpj;
 
 @Service
 public class PersonService {
+	
+	private final Integer CODE_BRAZIL = 76;
 
 	@Autowired
 	private PersonRepository repository;
-	
-	@Autowired
-	private CountryRepository countryRepository;
 	
 	@Autowired
 	private DocumentRepository documentRepository;
@@ -41,9 +38,8 @@ public class PersonService {
 	
 	@Transactional
 	public PersonDTO create(PersonCreateDTO dto) {
-		Country country = this.findByIsoCode3(dto.getCountryIsoCode());
 		
-		if(country.getIsoCode3().equalsIgnoreCase("bra")) {
+		if(dto.getCountryCodeOrigin() == CODE_BRAZIL) {
 			cpfCnpjIsValid(dto.getDocumentNumber());
 		}
 		
@@ -52,11 +48,11 @@ public class PersonService {
 		person.setBirthday(dto.getBirthday());
 		person.setGender(dto.getGender());
 		person.setSkinColor(dto.getSkinColor());
-		person.setCountry(country);
+		person.setCountryCodeOrigin(dto.getCountryCodeOrigin());
 		
 		person = repository.save(person);
 		
-		Document document = saveDocumentPerson(person, dto.getDocumentNumber(), country.getIsoCode3());
+		Document document = saveDocumentPerson(person, dto.getDocumentNumber(), dto.getCountryCodeOrigin());
 		
 		Set<Document> documents = new HashSet<>();
 		documents.add(document);
@@ -65,8 +61,8 @@ public class PersonService {
 		return new PersonDTO(person);
 	}
 	
-	private Document saveDocumentPerson(Person person, String documentNumber, String countryIsoCode) {
-		DocumentType documentType = (countryIsoCode.equalsIgnoreCase("bra") ? DocumentType.CPF : DocumentType.PASSAPORT);
+	private Document saveDocumentPerson(Person person, String documentNumber, Integer countryCodeOrigin) {
+		DocumentType documentType = (countryCodeOrigin == CODE_BRAZIL ? DocumentType.CPF : DocumentType.PASSAPORT);
 		Document document = new Document();
 		document.setDocumentType(documentType);
 		document.setPerson(person);
@@ -84,11 +80,6 @@ public class PersonService {
 		if(docExists) {
 			throw new ValidationCpfCnpjException("Document number already exists");
 		}
-	}
-	
-	private Country findByIsoCode3(String isoCode) {
-		Optional<Country> obj = countryRepository.findByIsoCode3(isoCode.toUpperCase());
-		return obj.orElseThrow(() -> new ResourceNotFoundException("Country code does not exist"));
 	}
 	
 	public PersonDTO findByCpf(String nucpf) {
