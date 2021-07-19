@@ -1,5 +1,7 @@
 package com.edersonferreira.msperson.dto;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -8,8 +10,10 @@ import com.edersonferreira.msperson.annotation.EnumValidator;
 import com.edersonferreira.msperson.model.enums.BondType;
 import com.edersonferreira.msperson.model.enums.RelationshipType;
 
-public class PersonRelCreateDTO {
-	
+public class PersonRelCreateDTO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	@NotNull
 	private Long idPersonParent;
 	

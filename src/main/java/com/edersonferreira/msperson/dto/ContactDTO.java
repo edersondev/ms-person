@@ -1,10 +1,14 @@
 package com.edersonferreira.msperson.dto;
 
+import java.io.Serializable;
+
 import com.edersonferreira.msperson.model.entities.Contact;
 import com.edersonferreira.msperson.model.enums.ContactType;
 
-public class ContactDTO {
+public class ContactDTO implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	private Long id;
 	private String content;
 	private ContactType contactType;

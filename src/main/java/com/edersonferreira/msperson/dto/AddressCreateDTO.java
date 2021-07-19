@@ -1,9 +1,13 @@
 package com.edersonferreira.msperson.dto;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-public class AddressCreateDTO {
+public class AddressCreateDTO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@NotNull
 	@Pattern(regexp = "\\d{8,12}")

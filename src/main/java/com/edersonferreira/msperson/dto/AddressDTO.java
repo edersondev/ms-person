@@ -1,11 +1,14 @@
 package com.edersonferreira.msperson.dto;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 import com.edersonferreira.msperson.model.entities.Address;
 
-public class AddressDTO {
+public class AddressDTO implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	private Long id;
 	private String postCode;
 	private String street;

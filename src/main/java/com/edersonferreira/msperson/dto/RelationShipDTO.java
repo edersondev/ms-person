@@ -1,11 +1,15 @@
 package com.edersonferreira.msperson.dto;
 
+import java.io.Serializable;
+
 import com.edersonferreira.msperson.model.entities.Relationship;
 import com.edersonferreira.msperson.model.enums.BondType;
 import com.edersonferreira.msperson.model.enums.RelationshipType;
 
-public class RelationShipDTO {
+public class RelationShipDTO implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	private Long id;
 	private String name;
 	private Integer relationshipType;

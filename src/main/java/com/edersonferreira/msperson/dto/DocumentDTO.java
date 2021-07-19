@@ -1,10 +1,14 @@
 package com.edersonferreira.msperson.dto;
 
+import java.io.Serializable;
+
 import com.edersonferreira.msperson.model.entities.Document;
 import com.edersonferreira.msperson.model.enums.DocumentType;
 
-public class DocumentDTO {
+public class DocumentDTO implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	private Long id;
 	private String number;
 	private DocumentType documentType;

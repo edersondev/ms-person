@@ -1,12 +1,16 @@
 package com.edersonferreira.msperson.dto;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import com.edersonferreira.msperson.annotation.EnumValidator;
 import com.edersonferreira.msperson.model.enums.ContactType;
 
-public class ContactCreateDTO {
+public class ContactCreateDTO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@NotNull
 	private String content;
