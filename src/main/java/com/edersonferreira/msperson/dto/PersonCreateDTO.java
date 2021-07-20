@@ -13,29 +13,37 @@ import com.edersonferreira.msperson.model.entities.Person;
 import com.edersonferreira.msperson.model.enums.Gender;
 import com.edersonferreira.msperson.model.enums.SkinColor;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class PersonCreateDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	@ApiModelProperty(value = "Persons name",example = "Beltrano Souza da Silva",required = true)
 	@NotBlank
 	private String name;
 	
+	@ApiModelProperty(value = "Date format must be Year-Month-Day",example = "1985-05-21",required = true)
 	@NotNull
 	@Past
 	private LocalDate birthday;
 	
+	@ApiModelProperty(allowableValues = "male,female",example = "male",required = true)
 	@NotNull
 	@Pattern(regexp="^[A-Za-z]*$",message = "Allow only string")
 	@EnumValidator(enumClass=Gender.class)
 	private String gender;
 	
+	@ApiModelProperty(allowableValues = "black,white,brown,yellow,indigenous",required = true)
 	@NotNull
 	@Pattern(regexp="^[A-Za-z]*$",message = "Allow only string")
 	@EnumValidator(enumClass=SkinColor.class)
 	private String skinColor;
 	
+	@ApiModelProperty(value = "Country of origin code",example = "76")
 	@NotNull
 	private Integer countryCodeOrigin;
 	
+	@ApiModelProperty(value = "For people from Brazil this field receives the CPF number, for other countries the passport number.",example = "60810088002")
 	@NotNull
 	private String documentNumber;
 	

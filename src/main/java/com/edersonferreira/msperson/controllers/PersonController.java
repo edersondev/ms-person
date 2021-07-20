@@ -35,7 +35,7 @@ public class PersonController {
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@PostMapping
+	@PostMapping(produces = "application/json")
 	public ResponseEntity<PersonDTO> create(@Valid @RequestBody PersonCreateDTO dto) {
 		PersonDTO obj =  service.create(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
