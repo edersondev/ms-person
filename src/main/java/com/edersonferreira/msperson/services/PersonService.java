@@ -30,10 +30,9 @@ public class PersonService {
 	@Autowired
 	private DocumentRepository documentRepository;
 	
-	@Transactional(readOnly = true)
 	public PersonDTO findById(Long id) {
-		Optional<Person> obj = repository.findById(id);
-		return obj.map(entity -> new PersonDTO(entity)).orElseThrow(() -> new ResourceNotFoundException());
+		Person person = findPersonById(id);
+		return new PersonDTO(person);
 	}
 	
 	@Transactional
