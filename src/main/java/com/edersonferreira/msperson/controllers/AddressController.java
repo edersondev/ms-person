@@ -24,13 +24,13 @@ public class AddressController {
 	@Autowired
 	private AddressService service;
 	
-	@GetMapping(value = "/{id}")
+	@GetMapping(value = "/{id}", produces = "application/json")
 	public ResponseEntity<AddressDTO> findByPerson(@PathVariable Long id){
 		AddressDTO address = service.findByPerson(id);
 		return ResponseEntity.ok().body(address);
 	}
 	
-	@PostMapping(value = "/{id}")
+	@PostMapping(value = "/{id}", produces = "application/json", consumes = "application/json")
 	public ResponseEntity<AddressDTO> createOrUpdate(@PathVariable Long id, @Valid @RequestBody AddressCreateDTO dto) {
 		AddressDTO address = service.createOrUpdate(id, dto);
 		return ResponseEntity.ok().body(address);

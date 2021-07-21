@@ -5,25 +5,33 @@ import java.io.Serializable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class AddressCreateDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@ApiModelProperty(example = "70684405",required = true)
 	@NotNull
 	@Pattern(regexp = "\\d{8,12}")
 	private String postCode;
 	
+	@ApiModelProperty(example = "Quadra CRNW 504 Bloco B Lote 6",required = true)
 	@NotNull
 	private String street;
 	
+	@ApiModelProperty(example = "333",required = true)
 	@NotNull
 	private Integer number;
 	
+	@ApiModelProperty(example = "apto 333")
 	private String complement;
 	
+	@ApiModelProperty(value = "City code from IBGE",example = "5300108",required = true)
 	@NotNull
 	private Long cityCode;
 	
+	@ApiModelProperty(example = "Asa Sul",required = true)
 	@NotNull
 	private String district;
 	
