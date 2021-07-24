@@ -27,13 +27,13 @@ public class DocumentController {
 	@Autowired
 	private DocumentService service;
 	
-	@GetMapping(value = "/{id}")
+	@GetMapping(value = "/{id}", produces = "application/json")
 	public ResponseEntity<List<DocumentDTO>> findAllByIdPerson(@PathVariable Long id) {
 		List<DocumentDTO> list = service.findAllByIdPerson(id);
 		return ResponseEntity.ok().body(list);
 	}
 	
-	@PostMapping(value = "/{id}")
+	@PostMapping(value = "/{id}", produces = "application/json", consumes = "application/json")
 	public ResponseEntity<DocumentDTO> create(@PathVariable Long id, @Valid @RequestBody DocumentCreateDTO dto){
 		DocumentDTO obj = service.create(id, dto);
 		return ResponseEntity.created(URI.create("/persons/documents" + id)).body(obj);

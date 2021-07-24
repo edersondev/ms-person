@@ -8,13 +8,17 @@ import javax.validation.constraints.Pattern;
 import com.edersonferreira.msperson.annotation.EnumValidator;
 import com.edersonferreira.msperson.model.enums.DocumentType;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class DocumentCreateDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@ApiModelProperty(value = "Document number",example = "2155933",required = true)
 	@NotNull
 	private String number;
 	
+	@ApiModelProperty(allowableValues = "cpf,rg,passport",example = "rg",required = true)
 	@NotNull
 	@Pattern(regexp="^[A-Za-z]*$",message = "Allow only string")
 	@EnumValidator(enumClass = DocumentType.class)

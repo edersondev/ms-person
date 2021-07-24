@@ -2,7 +2,7 @@ package com.edersonferreira.msperson.model.enums;
 
 public enum DocumentType {
 
-	CPF(1),RG(2),PASSAPORT(3);
+	CPF(1),RG(2),PASSPORT(3);
 	
 	private int code;
 	

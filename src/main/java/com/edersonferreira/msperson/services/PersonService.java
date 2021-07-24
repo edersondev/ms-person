@@ -61,7 +61,7 @@ public class PersonService {
 	}
 	
 	private Document saveDocumentPerson(Person person, String documentNumber, Integer countryCodeOrigin) {
-		DocumentType documentType = (countryCodeOrigin == CODE_BRAZIL ? DocumentType.CPF : DocumentType.PASSAPORT);
+		DocumentType documentType = (countryCodeOrigin == CODE_BRAZIL ? DocumentType.CPF : DocumentType.PASSPORT);
 		Document document = new Document();
 		document.setDocumentType(documentType);
 		document.setPerson(person);
