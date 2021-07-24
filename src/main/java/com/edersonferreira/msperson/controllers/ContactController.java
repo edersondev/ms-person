@@ -28,16 +28,16 @@ public class ContactController {
 	@Autowired
 	private ContactService service;
 	
-	@GetMapping(value = "/{id}", produces = "application/json")
-	public ResponseEntity<List<ContactDTO>> findAllByIdPerson(@PathVariable Long id) {
-		List<ContactDTO> list = service.findAllByIdPerson(id);
+	@GetMapping(value = "/{id_person}", produces = "application/json")
+	public ResponseEntity<List<ContactDTO>> findAllByIdPerson(@PathVariable Long id_person) {
+		List<ContactDTO> list = service.findAllByIdPerson(id_person);
 		return ResponseEntity.ok().body(list);
 	}
 	
-	@PostMapping(value = "/{id}", produces = "application/json", consumes = "application/json")
-	public ResponseEntity<ContactDTO> create(@PathVariable Long id, @Valid @RequestBody ContactCreateDTO dto) {
-		ContactDTO obj = service.create(id, dto);
-		return ResponseEntity.created(URI.create("/persons/contacts" + id)).body(obj);
+	@PostMapping(value = "/{id_person}", produces = "application/json", consumes = "application/json")
+	public ResponseEntity<ContactDTO> create(@PathVariable Long id_person, @Valid @RequestBody ContactCreateDTO dto) {
+		ContactDTO obj = service.create(id_person, dto);
+		return ResponseEntity.created(URI.create("/persons/contacts" + id_person)).body(obj);
 	}
 	
 	@DeleteMapping(value = "/{id}")

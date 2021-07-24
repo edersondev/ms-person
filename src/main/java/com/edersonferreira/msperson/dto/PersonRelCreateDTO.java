@@ -10,18 +10,23 @@ import com.edersonferreira.msperson.annotation.EnumValidator;
 import com.edersonferreira.msperson.model.enums.BondType;
 import com.edersonferreira.msperson.model.enums.RelationshipType;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class PersonRelCreateDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@ApiModelProperty(value = "Id person parent",required = true)
 	@NotNull
 	private Long idPersonParent;
 	
+	@ApiModelProperty(allowableValues = "father,mother,children,spouse",example = "spouse",required = true)
 	@NotBlank
 	@Pattern(regexp="^[A-Za-z]*$",message = "Allow only string")
 	@EnumValidator(enumClass = RelationshipType.class)
 	private String relationshipType;
 	
+	@ApiModelProperty(allowableValues = "genetic,social",example = "social",required = true)
 	@NotBlank
 	@Pattern(regexp="^[A-Za-z]*$",message = "Allow only string")
 	@EnumValidator(enumClass = BondType.class)

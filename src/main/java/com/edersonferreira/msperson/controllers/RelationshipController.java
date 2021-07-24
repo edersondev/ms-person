@@ -28,16 +28,16 @@ public class RelationshipController {
 	@Autowired
 	private RelationshipService service;
 	
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<List<RelationShipDTO>> findAllByIdPerson(@PathVariable Long id) {
-		List<RelationShipDTO> list = service.findAllByIdPerson(id);
+	@GetMapping(value = "/{id_person}", produces = "application/json")
+	public ResponseEntity<List<RelationShipDTO>> findAllByIdPerson(@PathVariable Long id_person) {
+		List<RelationShipDTO> list = service.findAllByIdPerson(id_person);
 		return ResponseEntity.ok().body(list);
 	}
 	
-	@PostMapping(value = "/{id}")
-	public ResponseEntity<RelationShipDTO> create(@PathVariable Long id, @Valid @RequestBody PersonRelCreateDTO dto){
-		RelationShipDTO obj = service.create(id, dto);
-		return ResponseEntity.created(URI.create("/persons/relationship" + id)).body(obj);
+	@PostMapping(value = "/{id_person}", produces = "application/json", consumes = "application/json")
+	public ResponseEntity<RelationShipDTO> create(@PathVariable Long id_person, @Valid @RequestBody PersonRelCreateDTO dto){
+		RelationShipDTO obj = service.create(id_person, dto);
+		return ResponseEntity.created(URI.create("/persons/relationship" + id_person)).body(obj);
 	}
 	
 	@DeleteMapping(value = "/{id}")

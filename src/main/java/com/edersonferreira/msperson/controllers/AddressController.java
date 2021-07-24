@@ -24,15 +24,15 @@ public class AddressController {
 	@Autowired
 	private AddressService service;
 	
-	@GetMapping(value = "/{id}", produces = "application/json")
-	public ResponseEntity<AddressDTO> findByPerson(@PathVariable Long id){
-		AddressDTO address = service.findByPerson(id);
+	@GetMapping(value = "/{id_person}", produces = "application/json")
+	public ResponseEntity<AddressDTO> findByPerson(@PathVariable Long id_person){
+		AddressDTO address = service.findByPerson(id_person);
 		return ResponseEntity.ok().body(address);
 	}
 	
-	@PostMapping(value = "/{id}", produces = "application/json", consumes = "application/json")
-	public ResponseEntity<AddressDTO> createOrUpdate(@PathVariable Long id, @Valid @RequestBody AddressCreateDTO dto) {
-		AddressDTO address = service.createOrUpdate(id, dto);
+	@PostMapping(value = "/{id_person}", produces = "application/json", consumes = "application/json")
+	public ResponseEntity<AddressDTO> createOrUpdate(@PathVariable Long id_person, @Valid @RequestBody AddressCreateDTO dto) {
+		AddressDTO address = service.createOrUpdate(id_person, dto);
 		return ResponseEntity.ok().body(address);
 	}
 }
