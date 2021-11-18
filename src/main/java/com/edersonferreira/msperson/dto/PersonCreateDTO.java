@@ -5,8 +5,11 @@ import java.time.LocalDate;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
+import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Pattern;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.edersonferreira.msperson.annotation.EnumValidator;
 import com.edersonferreira.msperson.model.entities.Person;
@@ -24,7 +27,8 @@ public class PersonCreateDTO implements Serializable {
 	
 	@ApiModelProperty(value = "Date format must be Year-Month-Day",example = "1985-05-21",required = true)
 	@NotNull
-	@Past
+	@DateTimeFormat(iso = ISO.DATE)
+	@PastOrPresent
 	private LocalDate birthday;
 	
 	@ApiModelProperty(allowableValues = "male,female",example = "male",required = true)

@@ -1,5 +1,7 @@
 package com.edersonferreira.msperson.exceptions;
 
+import java.time.format.DateTimeParseException;
+
 import javax.validation.ConstraintViolationException;
 
 import org.springframework.http.HttpStatus;
@@ -13,10 +15,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.edersonferreira.msperson.model.controlleradvice.MethodArgumentNotValid;
 import com.edersonferreira.msperson.model.controlleradvice.ResponseMsg;
+import com.edersonferreira.msperson.services.exceptions.ContactContentException;
 import com.edersonferreira.msperson.services.exceptions.RelationshipViolationException;
 import com.edersonferreira.msperson.services.exceptions.ResourceNotFoundException;
 import com.edersonferreira.msperson.services.exceptions.ValidationCpfCnpjException;
-import com.edersonferreira.msperson.services.exceptions.ContactContentException;
 
 @RestControllerAdvice
 public class RestExceptionHandler {
@@ -58,6 +60,13 @@ public class RestExceptionHandler {
 	})
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	public ResponseMsg handleCommonBadRequestException(RuntimeException ex) {
+		ResponseMsg response = new ResponseMsg(ex.getMessage());
+		return response;
+	}
+	
+	@ExceptionHandler(DateTimeParseException.class)
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	public ResponseMsg handleDateTimeParseException(DateTimeParseException ex) {
 		ResponseMsg response = new ResponseMsg(ex.getMessage());
 		return response;
 	}
