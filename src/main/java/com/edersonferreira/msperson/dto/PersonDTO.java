@@ -37,6 +37,10 @@ public class PersonDTO implements Serializable {
 		skinColor = entity.getSkinColor().getCode();
 		countryCodeOrigin = entity.getCountryCodeOrigin();
 	}
+	
+	public static PersonDTO fromEntity(Person entity) {
+		return new PersonDTO(entity);
+	}
 
 	public Long getId() {
 		return id;

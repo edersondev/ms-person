@@ -5,6 +5,10 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +33,13 @@ public class PersonService {
 	
 	@Autowired
 	private DocumentRepository documentRepository;
+	
+	public Page<PersonDTO> findAll(Integer pageNo,Integer pageSize,String sortBy) {
+		if(pageSize > 50) { pageSize = 50; }
+		Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+		Page<Person> page = repository.findAll(pageable);
+		return page.map(PersonDTO::fromEntity);
+	}
 	
 	public PersonDTO findById(Long id) {
 		Person person = findPersonById(id);
