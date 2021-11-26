@@ -3,12 +3,15 @@ package com.edersonferreira.msperson.services;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +24,7 @@ import com.edersonferreira.msperson.repositories.DocumentRepository;
 import com.edersonferreira.msperson.repositories.PersonRepository;
 import com.edersonferreira.msperson.services.exceptions.ResourceNotFoundException;
 import com.edersonferreira.msperson.services.exceptions.ValidationCpfCnpjException;
+import com.edersonferreira.msperson.specification.AppSpecificationsBuilder;
 import com.edersonferreira.msperson.validator.ValidationCpfCnpj;
 
 @Service
@@ -34,11 +38,24 @@ public class PersonService {
 	@Autowired
 	private DocumentRepository documentRepository;
 	
-	public Page<PersonDTO> findAll(Integer pageNo,Integer pageSize,String sortBy) {
+	public Page<PersonDTO> findAll(Integer pageNo,Integer pageSize,String sortBy, String search) {
 		if(pageSize > 50) { pageSize = 50; }
 		Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-		Page<Person> page = repository.findAll(pageable);
+		
+		Specification<Person> spec = this.getSpecification(search);
+		
+		Page<Person> page = repository.findAll(spec,pageable);
 		return page.map(PersonDTO::fromEntity);
+	}
+	
+	public Specification<Person> getSpecification(String search) {
+		AppSpecificationsBuilder<Person> builder = new AppSpecificationsBuilder<Person>();
+		Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),", Pattern.UNICODE_CHARACTER_CLASS);
+		Matcher matcher = pattern.matcher(search + ",");
+		while(matcher.find()) {
+			builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
+		}
+		return builder.build();
 	}
 	
 	public PersonDTO findById(Long id) {
