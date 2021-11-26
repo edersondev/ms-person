@@ -23,6 +23,7 @@ import com.edersonferreira.msperson.dto.PersonCreateDTO;
 import com.edersonferreira.msperson.dto.PersonDTO;
 import com.edersonferreira.msperson.services.PersonService;
 
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -39,6 +40,12 @@ public class PersonController {
 			@RequestParam(defaultValue = "0") Integer pageNo,
 			@RequestParam(defaultValue = "10") Integer pageSize,
 			@RequestParam(defaultValue = "id") String sortBy,
+			@ApiParam(
+				name = "search",
+				type = "String",
+				value = "Params for filter results, there are three operators, equal to \":\", greater than \">\" and less than \"<\", each criterion is separated by a comma.",
+				example = "name:maria,gender:2"
+			)
 			@RequestParam(value = "search", required = false) String search
 			) {
 		Page<PersonDTO> list = service.findAll(pageNo,pageSize,sortBy,search);
