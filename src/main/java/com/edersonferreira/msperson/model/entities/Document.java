@@ -21,7 +21,7 @@ public class Document {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(length = 50, nullable = false, unique = true)
+	@Column(length = 50, nullable = false)
 	private String number;
 	
 	@Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
