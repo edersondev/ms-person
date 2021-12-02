@@ -1,0 +1,14 @@
+version: '3'
+services:
+  dbpostgres:
+    image: postgres:12-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - dbmsperson:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: 1234567
+      POSTGRES_DB: msperson
+    restart: unless-stopped
+volumes:
+  dbmsperson:
