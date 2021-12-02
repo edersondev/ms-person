@@ -12,6 +12,7 @@ import com.edersonferreira.msperson.model.entities.Document;
 import com.edersonferreira.msperson.model.entities.Person;
 import com.edersonferreira.msperson.repositories.DocumentRepository;
 import com.edersonferreira.msperson.services.exceptions.ValidationCpfCnpjException;
+import com.edersonferreira.msperson.services.util.Translator;
 
 @Service
 public class DocumentService {
@@ -21,6 +22,9 @@ public class DocumentService {
 
 	@Autowired
 	private PersonService personService;
+	
+	@Autowired
+	private Translator translator;
 	
 	public List<DocumentDTO> findAllByIdPerson(Long id){
 		Person person = personService.findPersonById(id);
@@ -44,7 +48,7 @@ public class DocumentService {
 	public void checkDocumentTypeExists(Person idPerson, Integer documentType) {
 		boolean check = repository.existsByidPersonAndDocumentType(idPerson, documentType);
 		if(check) {
-			throw new ValidationCpfCnpjException("The document type alredy exists");
+			throw new ValidationCpfCnpjException(translator.toLocale("document.type.exists"));
 		}
 	}
 	

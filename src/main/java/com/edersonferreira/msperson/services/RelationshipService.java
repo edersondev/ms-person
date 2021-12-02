@@ -16,6 +16,7 @@ import com.edersonferreira.msperson.model.enums.RelationshipType;
 import com.edersonferreira.msperson.repositories.RelationshipRepository;
 import com.edersonferreira.msperson.services.exceptions.RelationshipViolationException;
 import com.edersonferreira.msperson.services.exceptions.ResourceNotFoundException;
+import com.edersonferreira.msperson.services.util.Translator;
 
 @Service
 public class RelationshipService {
@@ -25,6 +26,9 @@ public class RelationshipService {
 	
 	@Autowired
 	private PersonService personService;
+	
+	@Autowired
+	private Translator translator;
 	
 	public List<RelationShipDTO> findAllByIdPerson(Long id) {
 		Person idPerson = personService.findPersonById(id);
@@ -61,14 +65,16 @@ public class RelationshipService {
 				idPerson, dto.getRelationshipType().getCode(), dto.getBondType().getCode()
 		);
 		if(existsRelationship) {
-			throw new RelationshipViolationException("This person alredy has a " + dto.getRelationshipType());
+			String parentType = (dto.getRelationshipType() == RelationshipType.FATHER ? "relationship.type.father" : "relationship.type.mother");
+			String tranlatorParentType = translator.toLocale(parentType);
+			throw new RelationshipViolationException(translator.toLocale("relationship.exception.type", new String[] {tranlatorParentType}));
 		}
 	}
 	
 	private void checkPersonPersonParent(Person idPerson, Person idPersonParent) {
 		boolean exists = repository.existsByIdPersonAndIdPersonParent(idPerson, idPersonParent);
 		if(exists) {
-			throw new RelationshipViolationException("Person alredy has relationship with this parent");
+			throw new RelationshipViolationException(translator.toLocale("relationship.exception.exists"));
 		}
 	}
 	
@@ -76,7 +82,7 @@ public class RelationshipService {
 		try {			
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException("Resource not found: " + id);
+			throw new ResourceNotFoundException(translator.toLocale("resource.exception.not-found", new Long[] {id}));
 		}
 	}
 }

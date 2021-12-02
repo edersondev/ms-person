@@ -17,6 +17,7 @@ import com.edersonferreira.msperson.model.enums.ContactType;
 import com.edersonferreira.msperson.repositories.ContactRepository;
 import com.edersonferreira.msperson.services.exceptions.ContactContentException;
 import com.edersonferreira.msperson.services.exceptions.ResourceNotFoundException;
+import com.edersonferreira.msperson.services.util.Translator;
 
 @Service
 public class ContactService {
@@ -26,6 +27,9 @@ public class ContactService {
 	
 	@Autowired
 	private PersonService personService;
+	
+	@Autowired
+	private Translator translator;
 	
 	public List<ContactDTO> findAllByIdPerson(Long id) {
 		Person person = personService.findPersonById(id);
@@ -53,11 +57,11 @@ public class ContactService {
 	
 	private void validateContent(String content, ContactType contactType) {
 		String patternRegex = "\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b";
-		String messageException = "Invalid email";
+		String messageException = translator.toLocale("contact.exception.email");
 		
 		if(contactType != ContactType.EMAIL) {
 			patternRegex = "^\\d{10,11}$";
-			messageException = "Invalid phone";
+			messageException = translator.toLocale("contact.exception.phone");
 		}
 		
 		Pattern regex = Pattern.compile(patternRegex);
@@ -70,7 +74,8 @@ public class ContactService {
 	private void checkEmailExists(String email) {
 		boolean exists = repository.existsByContent(email);
 		if(exists) {
-			throw new ContactContentException("The email " + email + " alredy exists");
+			String msgException = translator.toLocale("contact.exception.email.exists", new String[] {email});
+			throw new ContactContentException(msgException);
 		}
 	}
 	
@@ -78,7 +83,8 @@ public class ContactService {
 		try {			
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException("Resource not found: " + id);
+			String msgException = translator.toLocale("resource.exception.not-found", new Long[] {id});
+			throw new ResourceNotFoundException(msgException);
 		}
 	}
 }

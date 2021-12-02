@@ -24,6 +24,7 @@ import com.edersonferreira.msperson.repositories.DocumentRepository;
 import com.edersonferreira.msperson.repositories.PersonRepository;
 import com.edersonferreira.msperson.services.exceptions.ResourceNotFoundException;
 import com.edersonferreira.msperson.services.exceptions.ValidationCpfCnpjException;
+import com.edersonferreira.msperson.services.util.Translator;
 import com.edersonferreira.msperson.specification.AppSpecificationsBuilder;
 import com.edersonferreira.msperson.validator.ValidationCpfCnpj;
 
@@ -37,6 +38,9 @@ public class PersonService {
 	
 	@Autowired
 	private DocumentRepository documentRepository;
+	
+	@Autowired
+	private Translator translator;
 	
 	public Page<PersonDTO> findAll(Integer pageNo,Integer pageSize,String sortBy, String search) {
 		if(pageSize > 50) { pageSize = 50; }
@@ -101,21 +105,21 @@ public class PersonService {
 	private void cpfCnpjIsValid(String documentNumber) {
 		ValidationCpfCnpj validationDoc = new ValidationCpfCnpj(documentNumber);
 		if(!validationDoc.documentIsValid()) {
-			throw new ValidationCpfCnpjException("CPF/CNPJ inválido");
+			throw new ValidationCpfCnpjException(translator.toLocale("document.invalid"));
 		}
 		boolean docExists = documentRepository.existsByNumber(documentNumber);
 		if(docExists) {
-			throw new ValidationCpfCnpjException("Document number already exists");
+			throw new ValidationCpfCnpjException(translator.toLocale("document.exists"));
 		}
 	}
 	
 	public PersonDTO findByCpf(String nucpf) {
 		Optional<PersonDTO> obj = repository.findByCpf(nucpf);
-		return obj.orElseThrow(() -> new ResourceNotFoundException("CPF informado não existe."));
+		return obj.orElseThrow(() -> new ResourceNotFoundException(translator.toLocale("document.not-found")));
 	}
 	
 	public Person findPersonById(Long id) {
 		Optional<Person> person = repository.findById(id);
-		return person.orElseThrow(() -> new ResourceNotFoundException("Person code does not exist"));
+		return person.orElseThrow(() -> new ResourceNotFoundException(translator.toLocale("person.not-found")));
 	}
 }

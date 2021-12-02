@@ -12,6 +12,7 @@ import com.edersonferreira.msperson.model.entities.Address;
 import com.edersonferreira.msperson.model.entities.Person;
 import com.edersonferreira.msperson.repositories.AddressRepository;
 import com.edersonferreira.msperson.services.exceptions.ResourceNotFoundException;
+import com.edersonferreira.msperson.services.util.Translator;
 
 @Service
 public class AddressService {
@@ -22,10 +23,13 @@ public class AddressService {
 	@Autowired
 	private PersonService personService;
 	
+	@Autowired
+	private Translator translator;
+	
 	public AddressDTO findByPerson(Long id) {
 		Person person = personService.findPersonById(id);
 		Optional<Address> address = repository.findByIdPerson(person);
-		return address.map(entity -> new AddressDTO(entity)).orElseThrow(() -> new ResourceNotFoundException("Address not found"));
+		return address.map(entity -> new AddressDTO(entity)).orElseThrow(() -> new ResourceNotFoundException(translator.toLocale("address.not-found")));
 	}
 	
 	public AddressDTO createOrUpdate(Long id, AddressCreateDTO dto) {
