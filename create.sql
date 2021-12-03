@@ -82,3 +82,13 @@
        add constraint FK67rrb0e43nhtwk56d4siyh6x0 
        foreign key (id_person_parent) 
        references tb_person;
+       
+    create unique index numberx_document_type on tb_document (number,document_type);
+    
+    create unique index idpersonx_document_type on tb_document (id_person,document_type);
+    
+    create unique index contentx_contatct_type on tb_contact (content,contact_type);
+    
+    create unique index idpersonx_relationship_bound on tb_relationship(id_person,relationship_type,bond_type);
+    
+    create unique index idpersonx_relationship_parent on tb_relationship(id_person,id_person_parent);
