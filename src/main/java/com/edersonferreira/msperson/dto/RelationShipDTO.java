@@ -2,13 +2,19 @@ package com.edersonferreira.msperson.dto;
 
 import java.io.Serializable;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.edersonferreira.msperson.model.entities.Relationship;
 import com.edersonferreira.msperson.model.enums.BondType;
 import com.edersonferreira.msperson.model.enums.RelationshipType;
+import com.edersonferreira.msperson.services.util.Translator;
 
 public class RelationShipDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	@Autowired
+	private Translator translator;
 	
 	private Long id;
 	private String name;
@@ -49,18 +55,20 @@ public class RelationShipDTO implements Serializable {
 
 	public String getRelationshipType() {
 		RelationshipType obj = RelationshipType.valueOf(relationshipType);
+		String type = "";
 		switch (obj) {
 			case FATHER:
-				return "Pai";
+				type = translator.toLocale("relationship.type.father");
 			case MOTHER:
-				return "Mãe";
+				type = translator.toLocale("relationship.type.mother");
 			case CHILDREN:
-				return "Filho(a)";
+				type = translator.toLocale("relationship.type.children");
 			case SPOUSE:
-				return "Cônjuge";
+				type = translator.toLocale("relationship.type.spouse");
 			default:
-				return "Outro";
+				type = translator.toLocale("enum.type.other");
 		}
+		return type;
 	}
 
 	public void setRelationshipType(RelationshipType relationshipType) {
@@ -71,7 +79,7 @@ public class RelationShipDTO implements Serializable {
 
 	public String getBondType() {
 		BondType obj = BondType.valueOf(bondType);
-		return (obj == BondType.GENETIC ? "Genético" : "Social");
+		return (obj == BondType.GENETIC ? translator.toLocale("relationship.bound.type.genetic") : translator.toLocale("relationship.bound.type.social"));
 	}
 
 	public void setBondType(BondType bondType) {

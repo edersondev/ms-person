@@ -3,12 +3,18 @@ package com.edersonferreira.msperson.dto;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.edersonferreira.msperson.model.entities.Person;
 import com.edersonferreira.msperson.model.enums.Gender;
 import com.edersonferreira.msperson.model.enums.SkinColor;
+import com.edersonferreira.msperson.services.util.Translator;
 
 public class PersonDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	@Autowired
+	private Translator translator;
 	
 	private Long id;
 	private String name;
@@ -68,7 +74,7 @@ public class PersonDTO implements Serializable {
 
 	public String getGender() {
 		Gender obj = Gender.valueOf(gender); 
-		return (obj == Gender.MALE ? "Masculino" : "Feminino");
+		return (obj == Gender.MALE ? translator.toLocale("person.gender.male") : translator.toLocale("person.gender.female"));
 	}
 
 	public void setGender(Gender gender) {
@@ -79,20 +85,22 @@ public class PersonDTO implements Serializable {
 
 	public String getSkinColor() {
 		SkinColor obj = SkinColor.valueOf(skinColor);
+		String skinColor = "";
 		switch (obj) {
 		case BLACK:
-			return "Negro";
+			skinColor = translator.toLocale("person.skin.black");
 		case WHITE:
-			return "Branco";
+			skinColor = translator.toLocale("person.skin.white");
 		case BROWN:
-			return "Pardo";
+			skinColor = translator.toLocale("person.skin.brown");
 		case YELLOW:
-			return "Amarelo";
+			skinColor = translator.toLocale("person.skin.yellow");
 		case INDIGENOUS:
-			return "Indígena";
+			skinColor = translator.toLocale("person.skin.indigenous");
 		default:
-			return "Outro";
+			skinColor = translator.toLocale("enum.type.other");
 		}
+		return skinColor;
 	}
 
 	public void setSkinColor(SkinColor skinColor) {
