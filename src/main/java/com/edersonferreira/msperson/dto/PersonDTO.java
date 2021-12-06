@@ -3,7 +3,7 @@ package com.edersonferreira.msperson.dto;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ResourceBundleMessageSource;
 
 import com.edersonferreira.msperson.model.entities.Person;
 import com.edersonferreira.msperson.model.enums.Gender;
@@ -13,7 +13,6 @@ import com.edersonferreira.msperson.services.util.Translator;
 public class PersonDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	@Autowired
 	private Translator translator;
 	
 	private Long id;
@@ -24,6 +23,7 @@ public class PersonDTO implements Serializable {
 	private Integer countryCodeOrigin;
 	
 	public PersonDTO() {
+
 	}
 	
 	public PersonDTO(Long id, String name, LocalDate birthday, Gender gender, SkinColor skinColor, Integer countryCodeOrigin) {
@@ -42,6 +42,11 @@ public class PersonDTO implements Serializable {
 		gender = entity.getGender().getCode();
 		skinColor = entity.getSkinColor().getCode();
 		countryCodeOrigin = entity.getCountryCodeOrigin();
+		
+		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+		messageSource.setBasename("i18n/messages");
+		messageSource.setDefaultEncoding("utf-8");
+		translator = new Translator(messageSource);
 	}
 	
 	public static PersonDTO fromEntity(Person entity) {
@@ -89,14 +94,19 @@ public class PersonDTO implements Serializable {
 		switch (obj) {
 		case BLACK:
 			skinColor = translator.toLocale("person.skin.black");
+			break;
 		case WHITE:
 			skinColor = translator.toLocale("person.skin.white");
+			break;
 		case BROWN:
 			skinColor = translator.toLocale("person.skin.brown");
+			break;
 		case YELLOW:
 			skinColor = translator.toLocale("person.skin.yellow");
+			break;
 		case INDIGENOUS:
 			skinColor = translator.toLocale("person.skin.indigenous");
+			break;
 		default:
 			skinColor = translator.toLocale("enum.type.other");
 		}
@@ -116,5 +126,7 @@ public class PersonDTO implements Serializable {
 	public void setCountryCodeOrigin(Integer countryCodeOrigin) {
 		this.countryCodeOrigin = countryCodeOrigin;
 	}
+	
+	
 	
 }

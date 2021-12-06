@@ -11,7 +11,7 @@ public class Translator {
 
 	private final ResourceBundleMessageSource messageSource;
 	
-    Translator(ResourceBundleMessageSource messageSource) {
+    public Translator(ResourceBundleMessageSource messageSource) {
         this.messageSource = messageSource;
     }
 

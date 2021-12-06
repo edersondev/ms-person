@@ -2,7 +2,7 @@ package com.edersonferreira.msperson.dto;
 
 import java.io.Serializable;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ResourceBundleMessageSource;
 
 import com.edersonferreira.msperson.model.entities.Relationship;
 import com.edersonferreira.msperson.model.enums.BondType;
@@ -13,7 +13,6 @@ public class RelationShipDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	@Autowired
 	private Translator translator;
 	
 	private Long id;
@@ -35,6 +34,11 @@ public class RelationShipDTO implements Serializable {
 		bondType = entity.getBondType().getCode();
 		name = entity.getIdPersonParent().getName();
 		id = entity.getIdPersonParent().getId();
+		
+		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+		messageSource.setBasename("i18n/messages");
+		messageSource.setDefaultEncoding("utf-8");
+		translator = new Translator(messageSource);
 	}
 
 	public Long getId() {
@@ -59,12 +63,16 @@ public class RelationShipDTO implements Serializable {
 		switch (obj) {
 			case FATHER:
 				type = translator.toLocale("relationship.type.father");
+				break;
 			case MOTHER:
 				type = translator.toLocale("relationship.type.mother");
+				break;
 			case CHILDREN:
 				type = translator.toLocale("relationship.type.children");
+				break;
 			case SPOUSE:
 				type = translator.toLocale("relationship.type.spouse");
+				break;
 			default:
 				type = translator.toLocale("enum.type.other");
 		}
