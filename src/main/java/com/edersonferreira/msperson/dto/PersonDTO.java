@@ -19,7 +19,7 @@ public class PersonDTO implements Serializable {
 	private String name;
 	private LocalDate birthday;
 	private Integer gender;
-	private Integer skinColor;
+	private Integer skinColor = SkinColor.OTHER.getCode();
 	private Integer countryCodeOrigin;
 	
 	public PersonDTO() {
@@ -40,7 +40,9 @@ public class PersonDTO implements Serializable {
 		name = entity.getName();
 		birthday = entity.getBirthday();
 		gender = entity.getGender().getCode();
-		skinColor = entity.getSkinColor().getCode();
+		if(entity.getSkinColor() != null) {
+			skinColor = entity.getSkinColor().getCode();			
+		}
 		countryCodeOrigin = entity.getCountryCodeOrigin();
 		
 		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();

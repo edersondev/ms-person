@@ -35,7 +35,6 @@ public class Person {
 	@Column(nullable = false)
 	private Integer gender;
 	
-	@Column(nullable = false)
 	private Integer skinColor;
 	
 	@Column(nullable = false, columnDefinition = "integer default 1")
@@ -46,7 +45,7 @@ public class Person {
 	
 	private Instant updatedAt;
 	
-	@Column(length = 6, nullable = false)
+	@Column(length = 6)
 	private Integer countryCodeOrigin;
 	
 	@OneToMany(mappedBy = "idPerson")
@@ -105,6 +104,9 @@ public class Person {
 	}
 
 	public SkinColor getSkinColor() {
+		if(skinColor == null) {
+			return null;
+		}
 		return SkinColor.valueOf(skinColor);
 	}
 

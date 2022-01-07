@@ -1,4 +1,3 @@
-#FROM openjdk:11
 FROM openjdk:11-ea-11-jre-slim
 LABEL maintainer="Ederson Ferreira <ederson.dev@gmail.com>"
 

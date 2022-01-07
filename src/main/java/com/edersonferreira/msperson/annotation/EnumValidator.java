@@ -16,7 +16,6 @@ import com.edersonferreira.msperson.validator.EnumValidatorImpl;
 @Constraint(validatedBy = {EnumValidatorImpl.class})
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})
-@NotNull
 @ReportAsSingleViolation
 @Documented
 public @interface EnumValidator {

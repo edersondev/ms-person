@@ -1,7 +1,7 @@
 package com.edersonferreira.msperson.model.enums;
 
 public enum SkinColor {
-	BLACK(1),WHITE(2),BROWN(3),YELLOW(4),INDIGENOUS(5);
+	BLACK(1),WHITE(2),BROWN(3),YELLOW(4),INDIGENOUS(5),OTHER(6);
 	
 	private int code;
 	

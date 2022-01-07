@@ -37,17 +37,15 @@ public class PersonCreateDTO implements Serializable {
 	@EnumValidator(enumClass=Gender.class)
 	private String gender;
 	
-	@ApiModelProperty(allowableValues = "black,white,brown,yellow,indigenous",required = true)
-	@NotNull
+	@ApiModelProperty(allowableValues = "black,white,brown,yellow,indigenous")
 	@Pattern(regexp="^[A-Za-z]*$",message = "Allow only string")
 	@EnumValidator(enumClass=SkinColor.class)
 	private String skinColor;
 	
 	@ApiModelProperty(value = "Country of origin code",example = "76")
-	@NotNull
 	private Integer countryCodeOrigin;
 	
-	@ApiModelProperty(value = "For people from Brazil this field receives the CPF number, for other countries the passport number.",example = "60810088002")
+	@ApiModelProperty(value = "For people from Brazil this field receives the CPF number, for other countries the passport number.",example = "60810088002",required = true)
 	@NotNull
 	private String documentNumber;
 	
@@ -96,6 +94,9 @@ public class PersonCreateDTO implements Serializable {
 	}
 
 	public SkinColor getSkinColor() {
+		if(skinColor == null) {
+			return null;
+		}
 		return SkinColor.valueOf(skinColor.toUpperCase());
 	}
 
