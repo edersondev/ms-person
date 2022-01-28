@@ -35,7 +35,7 @@ public class PersonController {
 	@Autowired
 	private PersonService service;
 	
-	@GetMapping
+	@GetMapping(produces = "application/json")
 	public ResponseEntity<Page<PersonDTO>> findAll(
 			@RequestParam(defaultValue = "0") Integer pageNo,
 			@RequestParam(defaultValue = "10") Integer pageSize,

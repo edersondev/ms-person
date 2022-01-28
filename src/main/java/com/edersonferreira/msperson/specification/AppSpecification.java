@@ -1,5 +1,9 @@
 package com.edersonferreira.msperson.specification;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -36,6 +40,14 @@ public class AppSpecification<T> implements Specification<T> {
             			"%" + criteria.getValue().toString().toUpperCase() + "%"
             	);
             } else {
+            	List<Long> items = new ArrayList<>();
+            	String strValue = (String)criteria.getValue();
+            	if(strValue.contains(",")) {
+        			for(String item : Arrays.asList(strValue.split("\\s*,\\s*"))) {
+        				items.add(Long.parseLong(item));
+        			}
+        			return builder.in(root.get(criteria.getKey())).value(items);
+        		}
                 return builder.equal(root.get(criteria.getKey()), criteria.getValue());
             }
         }
